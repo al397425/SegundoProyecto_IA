@@ -29,6 +29,8 @@ public class Tilemap {
             Ground,
             Path,
             Dirt,
+            Water,
+            Mountain
         }
 
         private Grid<TilemapObject> grid;

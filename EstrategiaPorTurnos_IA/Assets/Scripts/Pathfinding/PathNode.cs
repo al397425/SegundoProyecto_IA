@@ -11,7 +11,7 @@ public class PathNode
     public PathNode parent;
 
     public bool isRiver;
-    public bool isWoods;
+    public string spriteType;
     
     public PathNode(Grid<PathNode> grid, int x, int y)
     {
@@ -19,6 +19,7 @@ public class PathNode
         this.x = x;
         this.y = y;
         isRiver = false;
+        spriteType = "";
     }
 
     public void CalculateFCost()

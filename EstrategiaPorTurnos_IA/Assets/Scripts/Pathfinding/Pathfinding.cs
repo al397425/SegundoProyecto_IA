@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Pathfinding
 {
@@ -14,11 +15,13 @@ public class Pathfinding
     private Grid<PathNode> _grid;
     private List<PathNode> _openNodes;
     private List<PathNode> _closedNodes;
+    private Tilemap.TilemapObject.TilemapSprite[,] _spriteMatrix;
     
-    public Pathfinding(int width, int height)
+    public Pathfinding(int width, int height, Tilemap.TilemapObject.TilemapSprite[,] spriteMatrix)
     {
         Instance = this;
         _grid = new Grid<PathNode>(width, height, 10f, Vector3.zero, (g, x, y) => new PathNode(g, x, y));
+        _spriteMatrix = spriteMatrix;
     }
     
     public Grid<PathNode> GetGrid() {
@@ -27,6 +30,7 @@ public class Pathfinding
 
     public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 endWorldPos)
     {
+        
         _grid.GetXY(startWorldPos, out var startX, out var startY);
         _grid.GetXY(endWorldPos, out var endX, out var endY);
 
@@ -41,7 +45,7 @@ public class Pathfinding
         }
         return vPath;
     }
-
+    
     public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
     {
         PathNode startNode = _grid.GetGridObject(startX, startY);
@@ -57,6 +61,17 @@ public class Pathfinding
                 pathNode.gCost = int.MaxValue;
                 pathNode.CalculateFCost();
                 pathNode.parent = null;
+                
+                
+                pathNode.spriteType = _spriteMatrix[x, y] switch    //Esto sera utilizado para comprobar los pesos segun el terreno
+                {
+                    Tilemap.TilemapObject.TilemapSprite.Ground => "ground",
+                    Tilemap.TilemapObject.TilemapSprite.Path => "path",
+                    Tilemap.TilemapObject.TilemapSprite.Dirt => "dirt",
+                    Tilemap.TilemapObject.TilemapSprite.Water => "water",
+                    Tilemap.TilemapObject.TilemapSprite.Mountain => "mountain",
+                    _ => ""
+                };
             }
         }
 
@@ -77,7 +92,7 @@ public class Pathfinding
 
             foreach (var neighbourNode in GetNeighbourList(currentNode))
             { 
-                if (neighbourNode.isRiver)
+                if (neighbourNode.spriteType == "water")
                     _closedNodes.Add(neighbourNode);
                 
                 if (!_closedNodes.Contains(neighbourNode))

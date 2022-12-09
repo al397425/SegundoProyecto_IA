@@ -11,8 +11,20 @@ public class Tilemap {
         grid = new Grid<TilemapObject>(width, height, cellSize, originPosition, (g, x, y) => new TilemapObject(g, x, y));
     }
 
+    public Grid<TilemapObject> GetTilemapGrid()
+    {
+        return grid;
+    }
+    
     public void SetTilemapSprite(Vector3 worldPosition, TilemapObject.TilemapSprite tilemapSprite) {
         TilemapObject tilemapObject = grid.GetGridObject(worldPosition);
+        if (tilemapObject != null) {
+            tilemapObject.SetTilemapSprite(tilemapSprite);
+        }
+    }
+    
+    public void SetTilemapSprite(int x, int y, TilemapObject.TilemapSprite tilemapSprite) {
+        TilemapObject tilemapObject = grid.GetGridObject(x, y);
         if (tilemapObject != null) {
             tilemapObject.SetTilemapSprite(tilemapSprite);
         }

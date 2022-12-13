@@ -18,6 +18,7 @@ public class Testing : MonoBehaviour {
 
         tilemap.SetTilemapVisual(tilemapVisual);
         GenerateMap();
+        GenerateCharacters("archer");
     }
 
     private void Update() {
@@ -49,6 +50,18 @@ public class Testing : MonoBehaviour {
         //Debug.Log(UtilsClass.GetMouseWorldPosition()+"mouseWorldPosition");
 */
     }
+
+    private void GenerateCharacters(string unitType) {
+        GameObject unitPrefab = GameObject.Find("CharacterPrefab");
+        Vector3 v = new Vector3(10, 10, 0);
+        GameObject characterUnit = Instantiate(unitPrefab, v, Quaternion.identity);
+        characterUnit.GetComponent<CharacterClass>().type = unitType;
+        characterUnit.GetComponent<CharacterClass>().SetStats();
+        characterUnit.transform.SetParent(GameObject.Find("Units").transform, false);
+
+
+    }
+
     private void GenerateMap(){
         //Ground -->> tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Ground;
         //Path  -->> tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;

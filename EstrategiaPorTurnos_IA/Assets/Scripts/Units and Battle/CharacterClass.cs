@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class CharacterClass:MonoBehaviour, ICharacter 
 {
     public int movement; //número casillas que se podrá desplazar
+    public int cost;
     public int attackRange;
     public int health;
     public int attack;
@@ -63,6 +64,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 1;
             attack = 2;
             type = "archer";
+            cost = 1;
             
         }
         else if (this.type == "infantry")
@@ -72,6 +74,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 3;
             attack = 2;
             type = "infantry";
+            cost = 1;
         }
         else if (this.type == "tank")
         {
@@ -80,6 +83,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 4;
             attack = 3;
             type = "tank";
+            cost = 3;
 
 
         }
@@ -90,6 +94,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 2;
             attack = 2;
             type = "aerial";
+            cost = 3;
 
         }
         else
@@ -210,12 +215,12 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
 
     //Puede que esto lo use, puede que se junte con lo del Move al final, no lo sé aún
-    /*
+    
     public void InfantryIA() { }
     public void ArcherIA() { }
     public void TankIA() { }
     public void AerialIA() { }
-    */
+    
 
     public void StatsTell()
     {

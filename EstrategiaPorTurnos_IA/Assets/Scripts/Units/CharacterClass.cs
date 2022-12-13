@@ -14,7 +14,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
     public int id;
     public int[] position = { 0, 0 };
     public int team;
-
+    public UnitSelection unitSel;
     public void Awake()
     {
 
@@ -26,6 +26,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
     {
         type = t;
 
+
     }
 
     // Update is called once per frame
@@ -34,25 +35,18 @@ public class CharacterClass:MonoBehaviour, ICharacter
         //Esto ahora mismo no funciona
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //coge la posicion que has clicado
+        BoxCollider2D currentUnit = this.GetComponent<BoxCollider2D>();
 
+        if(Input.GetMouseButtonDown(0) && currentUnit.OverlapPoint(mousePos)) {
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+            StatsTell();
+            unitSel.activateUnit(this.gameObject);
+            
 
-        if (Input.GetMouseButtonDown(0) && hit.collider != null)
-        {
+            //¿Habría que meterlos todos en una lista/recorrerlos para deshabilitarlos? Eso o en el game manager más fácil
 
-            GameObject collisionItem = hit.collider.gameObject;
-            CharacterClass collisionCharacter = hit.collider.gameObject.GetComponent<CharacterClass>();
-            //Debug.Log("collision item " + collisionItem);
-
-            if (hit.collider != null && collisionItem == GameObject.Find("CharacterPrefab(Clone)"))
-            {
-                collisionCharacter.StatsTell();
-            }
-
-           
         }
+     
     }
 
     public void SetStats()

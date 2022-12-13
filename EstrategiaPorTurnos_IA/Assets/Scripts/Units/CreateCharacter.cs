@@ -22,6 +22,7 @@ public class CreateCharacter : MonoBehaviour
 
 
 
+
     public void GenerateCharacters(string unitType)
     {
         //falta hacer que sea una posicion que tu señales, de momento he puesto que lo pusiese 

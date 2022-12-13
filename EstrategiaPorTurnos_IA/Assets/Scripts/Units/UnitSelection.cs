@@ -7,13 +7,15 @@ public class UnitSelection : MonoBehaviour
 {
     private GameObject pastUnit;
     private GameObject currentUnit;
-    public Button attackButton;
+    private GameObject attackButton;
 
     // Start is called before the first frame update
     void Start()
     {
  
         pastUnit = null;
+        attackButton = GameObject.Find("AttackButton");
+        attackButton.SetActive(false);
     }
 
     // Update is called once per frame
@@ -36,8 +38,7 @@ public class UnitSelection : MonoBehaviour
         currentUnit = go;
         currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = true;
         currentUnit.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(currentUnit.transform.position);
-        Debug.Log("");
-        attackButton.enabled = true;
+        attackButton.SetActive(true);
 
     }
 
@@ -45,8 +46,9 @@ public class UnitSelection : MonoBehaviour
     {
         if(currentUnit!=null && pastUnit!=null && currentUnit != pastUnit)
         {
+            Debug.Log("Se puede atacar");
             pastUnit.GetComponent<CharacterClass>().AttackUnit(currentUnit);
         }
-        attackButton.enabled = false;
+        attackButton.SetActive(false);
     }
 }

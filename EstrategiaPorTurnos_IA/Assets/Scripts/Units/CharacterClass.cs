@@ -43,8 +43,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         if(Input.GetMouseButtonDown(0) && currentUnit.OverlapPoint(mousePos)) {
 
             StatsTell();
-            unitSel.activateUnit(this.gameObject);
-            
+            unitSel.activateUnit(gameObject);
 
             //¿Habría que meterlos todos en una lista/recorrerlos para deshabilitarlos? Eso o en el game manager más fácil
 
@@ -154,7 +153,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         int rivalATK = rival.GetComponent<CharacterClass>().attack;
         string rivalUnit = rival.GetComponent<CharacterClass>().type; //esto por si luego se nos va la olla y metemos velocidad/prioridad de ataques
 
-        Debug.Log("La unidad " + type + "ataca a " + rivalUnit);
+        Debug.Log("La unidad " + type + " ataca a " + rivalUnit);
 
         rivalHP = rivalHP - attack;
 

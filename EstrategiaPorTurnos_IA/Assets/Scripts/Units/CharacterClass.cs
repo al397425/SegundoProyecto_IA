@@ -20,6 +20,8 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
     }
     // Start is called before the first frame update
+
+    //en verdad este constructor no se utiliza, luego lo borro
     public CharacterClass(string t)
     {
         type = t;
@@ -29,7 +31,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
     // Update is called once per frame
     public void Update()
     {
-
+        //Esto ahora mismo no funciona
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //coge la posicion que has clicado
 
@@ -97,27 +99,42 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
     }
 
+    //La idea aquí ha sido que haya un MoveUnit genérico que compruebe qué clase es y ya llame
+    //al especifico (en verdad esto es más donde iría lo de la IA y luego el moverlo en sí
+    //sería maybe al final de los if o algo, y que la IA llame a todo esto pero el jugador sea
+    //directamente solo comprobar si es posible con los movimientos y si lo es se mueve sin más
+
     public void MoveUnit(int x, int y)
     {
         Debug.Log("Esta unidad se mueve " + this.movement + " de distancia");
-        if (this.type == "archer")
-        {
-            MoveArcher(x, y);
-        }
-        else if (this.type == "infantry")
-        {
-            MoveInfantry(x, y);
-        }
-        else if (this.type == "tank")
-        {
-            MoveTank(x, y);
 
-        }
-        else if (this.type == "aerial")
+        if (team != 1) //la IA (?) Podría haber sido un booleano, pues la verdad es que sí, luego
+                           //si eso lo cambio
         {
-            MoveAerial(x, y);
+            if (this.type == "archer")
+            {
+                MoveArcher(x, y);
+            }
+            else if (this.type == "infantry")
+            {
+                MoveInfantry(x, y);
+            }
+            else if (this.type == "tank")
+            {
+                MoveTank(x, y);
+
+            }
+            else if (this.type == "aerial")
+            {
+                MoveAerial(x, y);
+            }
         }
-        //aquí código 
+        
+        //if que compruebe si los movimientos de la unidad lo permiten
+
+
+        //si lo permiten se mueve a la posicion (si eres el jugador la pos es donde has clicado,
+        //si es la IA es la posición que calcule con la función especifica)
     }
     public void AttackUnit()
     {
@@ -149,19 +166,23 @@ public class CharacterClass:MonoBehaviour, ICharacter
     }
 
 
-
+    //Puede que esto lo use, puede que se junte con lo del Move al final, no lo sé aún
+    /*
     public void InfantryIA() { }
     public void ArcherIA() { }
     public void TankIA() { }
     public void AerialIA() { }
-
-
+    */
 
     public void StatsTell()
     {
         Debug.Log("movement" + movement + ", atk range " + attackRange + " type " + type);
     }
 }
+
+
+
+//Esto es cómo lo tenía antes por si luego todo explota 
 /*
 public class CharacterClass : Character
 {

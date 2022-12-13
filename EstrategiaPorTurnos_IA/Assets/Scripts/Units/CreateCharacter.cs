@@ -24,6 +24,10 @@ public class CreateCharacter : MonoBehaviour
 
     public void GenerateCharacters(string unitType)
     {
+        //falta hacer que sea una posicion que tu señales, de momento he puesto que lo pusiese 
+        //en una posición fija para testear
+
+        //esto a lo mejor está hecho muy cutre pero de momento funciona así que
         GameObject unitPrefab = GameObject.Find("CharacterPrefab");
         Vector3 v = new Vector3(10, 10, 0);
         GameObject characterUnit = Instantiate(unitPrefab, v, Quaternion.identity);
@@ -31,7 +35,6 @@ public class CreateCharacter : MonoBehaviour
         characterUnit.GetComponent<CharacterClass>().SetStats();
         characterUnit.transform.SetParent(GameObject.Find("Units").transform, false);
 
-       // return characterUnit;
 
 
     }

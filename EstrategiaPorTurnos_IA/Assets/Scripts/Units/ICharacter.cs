@@ -13,6 +13,8 @@ interface ICharacter
 
 
 }
+
+//Esto es cómo lo tenía antes por si luego todo explota (era una clase base para hacer herencia)
 /*
     public abstract class Character : MonoBehaviour
 {

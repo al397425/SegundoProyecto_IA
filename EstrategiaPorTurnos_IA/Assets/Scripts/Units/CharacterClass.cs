@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class CharacterClass:MonoBehaviour, ICharacter 
 {
@@ -15,6 +16,8 @@ public class CharacterClass:MonoBehaviour, ICharacter
     public int[] position = { 0, 0 };
     public int team;
     public UnitSelection unitSel;
+    public Button attackButton;
+
     public void Awake()
     {
 
@@ -123,20 +126,60 @@ public class CharacterClass:MonoBehaviour, ICharacter
                 MoveAerial(x, y);
             }
         }
-        
+
         //if que compruebe si los movimientos de la unidad lo permiten
 
 
         //si lo permiten se mueve a la posicion (si eres el jugador la pos es donde has clicado,
         //si es la IA es la posición que calcule con la función especifica)
+
+
+
+        //si tiene en rango a una unidad enemiga muestra un botón de atacar, si le das llamas a AttackUnit
+
+
     }
-    public void AttackUnit()
+
+
+    
+
+    public void AttackUnit(GameObject rival) 
     {
-        Debug.Log("Esta unidad se mueve " + this.attackRange + " de distancia");
-        //comprueba si está en el rango de ataque 
+       
+        //comprueba si está en el rango de ataque / si es voladora y tú melee etc
 
 
         //si lo está se inicia el enfrentamiento entre las unidades
+        int rivalHP = rival.GetComponent<CharacterClass>().health;
+        int rivalATK = rival.GetComponent<CharacterClass>().attack;
+        string rivalUnit = rival.GetComponent<CharacterClass>().type; //esto por si luego se nos va la olla y metemos velocidad/prioridad de ataques
+
+        Debug.Log("La unidad " + type + "ataca a " + rivalUnit);
+
+        rivalHP = rivalHP - attack;
+
+        Debug.Log("El rival ha sufrido " + attack + "puntos de daño, tiene " + rivalHP + " de vida");
+
+        if (rivalHP <= 0)
+        {
+            //destruyes al rival
+            Destroy(rival);
+            Debug.Log("La unidad enemiga ha sido derrotada");
+        }
+        else
+        {
+            health = health - rivalATK;
+
+            Debug.Log("Tu unidad sufre " + rivalATK + " de daño, tienes " + health + "puntos de vida");
+
+            if (health <= 0) {
+                Debug.Log("Tu unidad ha sido derrotada");
+                Destroy(this.gameObject);
+            }
+            
+        }
+
+
     }
 
     public void MoveArcher(int x, int y)

@@ -17,9 +17,12 @@ public class CharacterClass:MonoBehaviour, ICharacter
     public int team;
     public UnitSelection unitSel;
     public Button attackButton;
+    private MeshRenderer mr;
 
     public void Awake()
     {
+        mr = GetComponent<MeshRenderer>();
+        
 
     }
     // Start is called before the first frame update
@@ -60,6 +63,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 1;
             attack = 2;
             type = "archer";
+            
         }
         else if (this.type == "infantry")
         {
@@ -77,6 +81,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
             attack = 3;
             type = "tank";
 
+
         }
         else if (this.type == "aerial")
         {
@@ -85,12 +90,14 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 2;
             attack = 2;
             type = "aerial";
+
         }
         else
         {
             Debug.Log("No hay tipo, es "+ this.type);
         }
-        StatsTell();
+
+        mr.material = unitSel.GetMaterialUnit(type);
 
 
     }

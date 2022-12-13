@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class CharacterClass:MonoBehaviour, ICharacter 
 {
     public int movement; //número casillas que se podrá desplazar
+    public int cost;
     public int attackRange;
     public int health;
     public int attack;
@@ -14,9 +16,14 @@ public class CharacterClass:MonoBehaviour, ICharacter
     public int id;
     public int[] position = { 0, 0 };
     public int team;
+    public UnitSelection unitSel;
+    public Button attackButton;
+    private MeshRenderer mr;
 
     public void Awake()
     {
+        mr = GetComponent<MeshRenderer>();
+        
 
     }
     // Start is called before the first frame update
@@ -26,6 +33,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
     {
         type = t;
 
+
     }
 
     // Update is called once per frame
@@ -34,25 +42,17 @@ public class CharacterClass:MonoBehaviour, ICharacter
         //Esto ahora mismo no funciona
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //coge la posicion que has clicado
+        BoxCollider2D currentUnit = this.GetComponent<BoxCollider2D>();
 
+        if(Input.GetMouseButtonDown(0) && currentUnit.OverlapPoint(mousePos)) {
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+            StatsTell();
+            unitSel.activateUnit(gameObject);
 
-        if (Input.GetMouseButtonDown(0) && hit.collider != null)
-        {
+            //¿Habría que meterlos todos en una lista/recorrerlos para deshabilitarlos? Eso o en el game manager más fácil
 
-            GameObject collisionItem = hit.collider.gameObject;
-            CharacterClass collisionCharacter = hit.collider.gameObject.GetComponent<CharacterClass>();
-            //Debug.Log("collision item " + collisionItem);
-
-            if (hit.collider != null && collisionItem == GameObject.Find("CharacterPrefab(Clone)"))
-            {
-                collisionCharacter.StatsTell();
-            }
-
-           
         }
+     
     }
 
     public void SetStats()
@@ -64,6 +64,8 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 1;
             attack = 2;
             type = "archer";
+            cost = 1;
+            
         }
         else if (this.type == "infantry")
         {
@@ -72,6 +74,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 3;
             attack = 2;
             type = "infantry";
+            cost = 1;
         }
         else if (this.type == "tank")
         {
@@ -80,6 +83,8 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 4;
             attack = 3;
             type = "tank";
+            cost = 3;
+
 
         }
         else if (this.type == "aerial")
@@ -89,12 +94,15 @@ public class CharacterClass:MonoBehaviour, ICharacter
             health = 2;
             attack = 2;
             type = "aerial";
+            cost = 3;
+
         }
         else
         {
             Debug.Log("No hay tipo, es "+ this.type);
         }
-        StatsTell();
+
+        mr.material = unitSel.GetMaterialUnit(type);
 
 
     }
@@ -129,20 +137,60 @@ public class CharacterClass:MonoBehaviour, ICharacter
                 MoveAerial(x, y);
             }
         }
-        
+
         //if que compruebe si los movimientos de la unidad lo permiten
 
 
         //si lo permiten se mueve a la posicion (si eres el jugador la pos es donde has clicado,
         //si es la IA es la posición que calcule con la función especifica)
+
+
+
+        //si tiene en rango a una unidad enemiga muestra un botón de atacar, si le das llamas a AttackUnit
+
+
     }
-    public void AttackUnit()
+
+
+    
+
+    public void AttackUnit(GameObject rival) 
     {
-        Debug.Log("Esta unidad se mueve " + this.attackRange + " de distancia");
-        //comprueba si está en el rango de ataque 
+       
+        //comprueba si está en el rango de ataque / si es voladora y tú melee etc
 
 
         //si lo está se inicia el enfrentamiento entre las unidades
+        int rivalHP = rival.GetComponent<CharacterClass>().health;
+        int rivalATK = rival.GetComponent<CharacterClass>().attack;
+        string rivalUnit = rival.GetComponent<CharacterClass>().type; //esto por si luego se nos va la olla y metemos velocidad/prioridad de ataques
+
+        Debug.Log("La unidad " + type + " ataca a " + rivalUnit);
+
+        rivalHP = rivalHP - attack;
+
+        Debug.Log("El rival ha sufrido " + attack + "puntos de daño, tiene " + rivalHP + " de vida");
+
+        if (rivalHP <= 0)
+        {
+            //destruyes al rival
+            Destroy(rival);
+            Debug.Log("La unidad enemiga ha sido derrotada");
+        }
+        else
+        {
+            health = health - rivalATK;
+
+            Debug.Log("Tu unidad sufre " + rivalATK + " de daño, tienes " + health + "puntos de vida");
+
+            if (health <= 0) {
+                Debug.Log("Tu unidad ha sido derrotada");
+                Destroy(this.gameObject);
+            }
+            
+        }
+
+
     }
 
     public void MoveArcher(int x, int y)
@@ -167,16 +215,16 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
 
     //Puede que esto lo use, puede que se junte con lo del Move al final, no lo sé aún
-    /*
+    
     public void InfantryIA() { }
     public void ArcherIA() { }
     public void TankIA() { }
     public void AerialIA() { }
-    */
+    
 
     public void StatsTell()
     {
-        Debug.Log("movement" + movement + ", atk range " + attackRange + " type " + type);
+        Debug.Log("movement" + movement + ", atk range " + attackRange + " type " + type + ", del equipo "+team);
     }
 }
 

@@ -8,7 +8,7 @@ interface ICharacter
 {
 
     void MoveUnit(int x, int y);
-    void AttackUnit();
+    void AttackUnit(GameObject go);
 
 
 

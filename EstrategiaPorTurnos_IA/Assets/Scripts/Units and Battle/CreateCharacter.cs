@@ -5,20 +5,24 @@ using UnityEngine.UI;
 
 public class CreateCharacter : MonoBehaviour
 {
+    private bool playerTurn;
     public Button yourButton;
    // public string type;
     // Start is called before the first frame update
     void Start()
     {
         Button btn = yourButton.GetComponent<Button>();
+        playerTurn = GameObject.Find("GameHandler").GetComponent<UnitSelection>().playerTurn;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        playerTurn = GameObject.Find("GameHandler").GetComponent<UnitSelection>().playerTurn;
+
     }
+
 
 
 
@@ -32,6 +36,10 @@ public class CreateCharacter : MonoBehaviour
         Vector3 v = new Vector3(10, 10, 0);
         GameObject characterUnit = Instantiate(unitPrefab, v, Quaternion.identity);
         characterUnit.GetComponent<CharacterClass>().type = unitType;
+
+        if (playerTurn) { characterUnit.GetComponent<CharacterClass>().team = 1; }
+        else { characterUnit.GetComponent<CharacterClass>().team = 2; }
+
         characterUnit.GetComponent<CharacterClass>().SetStats();
         characterUnit.transform.SetParent(GameObject.Find("Units").transform, false);
 

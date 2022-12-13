@@ -212,7 +212,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
     public void StatsTell()
     {
-        Debug.Log("movement" + movement + ", atk range " + attackRange + " type " + type);
+        Debug.Log("movement" + movement + ", atk range " + attackRange + " type " + type + ", del equipo "+team);
     }
 }
 

@@ -8,6 +8,7 @@ public class CharacterIA : ICharacter
     CreateCharacter createCh;
     CharacterClass chClass;
     UnitSelection unitSel;
+    int ActionsNumber;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,8 @@ public class CharacterIA : ICharacter
     // Update is called once per frame
     void Update()
     {
-
+        //He pensado para que la IA pase el turno que si tiene por ejemplo 3 unidades =  3 ActionsNumber y cada vez que mueva
+        // una unidad se reste las acciones de ese turno y luego se llame a changeTurn
     }
     public string PickUnitClass()
     {
@@ -36,7 +38,7 @@ public class CharacterIA : ICharacter
 
     public void CreateUnits()
     {
-        //en funcion de lo que hay en el campo y el coste y recursos de los que dispone decide qué hacer
+        //en funcion de lo que hay en el campo y el coste y recursos de los que dispone decide quï¿½ hacer
         string unitType = PickUnitClass();
         if (unitType != "") { createCh.GenerateCharacters(unitType); }
         else { Debug.Log("No se reclutaran unidades este turno"); }
@@ -53,13 +55,13 @@ public class CharacterIA : ICharacter
         //prueba si puede atacar y si le conviene
         AttackUnit(go);
 
-        //si aún puede mira a dónde moverse
+        //si aï¿½n puede mira a dï¿½nde moverse
 
     }
 
     private GameObject PickUnit()
     {
-        //mira todas las unidades disponibles y elige cuál es la más óptima
+        //mira todas las unidades disponibles y elige cuï¿½l es la mï¿½s ï¿½ptima
         GameObject bestPick = null;
 
         return bestPick;

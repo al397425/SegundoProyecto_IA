@@ -11,7 +11,7 @@ public class UnitSelection : MonoBehaviour
     private GameObject pastUnit;
     private GameObject currentUnit;
     private GameObject attackButton;
-    private GameObject passButton;
+    //private GameObject passButton;
     private GameObject textStats;
 
     private GameObject currentUnitInfo;
@@ -37,7 +37,7 @@ public class UnitSelection : MonoBehaviour
         playerTurn = true;
         numberTurn = 0;
 
-      Button btnpass = passButton.GetComponent<Button>();
+      //Button btnpass = passButton.GetComponent<Button>();
 
     }
 
@@ -116,7 +116,7 @@ public class UnitSelection : MonoBehaviour
 
     public void changeTurn()
     {
-        Debug.Log("changeturn button works");
+        //Debug.Log("changeturn button works");
         playerTurn = !playerTurn;
         pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
         pastUnit = null;

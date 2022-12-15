@@ -346,7 +346,7 @@ public class LevelManager : MonoBehaviour
         }
     }
     private void GeneratePath(){
-        var cantidad = Random.Range(5, 11);   //Cantidad de lagos. Aleatoria?
+        var cantidad = Random.Range(4, 10);   //Cantidad de lagos. Aleatoria?
         int PathType;
         int originX, originY;  //Origen del primer cuadrado del lago. Se haria aleatoriamente. Quizas entre [2, x-2] [y, 3] 
         tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
@@ -430,7 +430,7 @@ public class LevelManager : MonoBehaviour
                     break;
                 //horizontal path
                 case 3:
-                    originX = Random.Range(2, grid_x_size - 2);
+                    originX = Random.Range(2, grid_x_size - 4);
                     originY = Random.Range(grid_y_simetrico - 5, 4);
 
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);

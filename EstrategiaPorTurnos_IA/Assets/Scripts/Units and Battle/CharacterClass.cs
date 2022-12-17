@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CharacterClass:MonoBehaviour, ICharacter 
 {
-    public int movement; //número casillas que se podrá desplazar
+    public int movement; //nï¿½mero casillas que se podrï¿½ desplazar
     public int cost;
     public int attackRange;
     public int health;
@@ -49,7 +49,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
             StatsTell();
             unitSel.activateUnit(gameObject);
 
-            //¿Habría que meterlos todos en una lista/recorrerlos para deshabilitarlos? Eso o en el game manager más fácil
+            //ï¿½Habrï¿½a que meterlos todos en una lista/recorrerlos para deshabilitarlos? Eso o en el game manager mï¿½s fï¿½cil
 
         }
      
@@ -59,7 +59,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
     {
         if (this.type == "archer")
         {
-            movement = 3;
+            movement = 100;
             attackRange = 3;
             health = 1;
             attack = 2;
@@ -69,7 +69,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         }
         else if (this.type == "infantry")
         {
-            movement = 3;
+            movement = 100;
             attackRange = 1;
             health = 3;
             attack = 2;
@@ -78,7 +78,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         }
         else if (this.type == "tank")
         {
-            movement = 2;
+            movement = 100;
             attackRange = 2;
             health = 4;
             attack = 3;
@@ -89,7 +89,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         }
         else if (this.type == "aerial")
         {
-            movement = 5;
+            movement = 100;
             attackRange = 2;
             health = 2;
             attack = 2;
@@ -107,16 +107,26 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
     }
 
-    //La idea aquí ha sido que haya un MoveUnit genérico que compruebe qué clase es y ya llame
-    //al especifico (en verdad esto es más donde iría lo de la IA y luego el moverlo en sí
-    //sería maybe al final de los if o algo, y que la IA llame a todo esto pero el jugador sea
-    //directamente solo comprobar si es posible con los movimientos y si lo es se mueve sin más
+    public string GetType()
+    {
+        return type;
+    }
+
+    public int GetMovement()
+    {
+        return movement;
+    }
+
+    //La idea aquï¿½ ha sido que haya un MoveUnit genï¿½rico que compruebe quï¿½ clase es y ya llame
+    //al especifico (en verdad esto es mï¿½s donde irï¿½a lo de la IA y luego el moverlo en sï¿½
+    //serï¿½a maybe al final de los if o algo, y que la IA llame a esto pero el jugador sea
+    //directamente solo comprobar si es posible con los movimientos y si lo es se mueve sin mï¿½s
 
     public void MoveUnit(int x, int y)
     {
         Debug.Log("Esta unidad se mueve " + this.movement + " de distancia");
 
-        if (team != 1) //la IA (?) Podría haber sido un booleano, pues la verdad es que sí, luego
+        if (team != 1) //la IA (?) Podrï¿½a haber sido un booleano, pues la verdad es que sï¿½, luego
                            //si eso lo cambio
         {
             if (this.type == "archer")
@@ -142,11 +152,11 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
 
         //si lo permiten se mueve a la posicion (si eres el jugador la pos es donde has clicado,
-        //si es la IA es la posición que calcule con la función especifica)
+        //si es la IA es la posiciï¿½n que calcule con la funciï¿½n especifica)
 
 
 
-        //si tiene en rango a una unidad enemiga muestra un botón de atacar, si le das llamas a AttackUnit
+        //si tiene en rango a una unidad enemiga muestra un botï¿½n de atacar, si le das llamas a AttackUnit
 
 
     }
@@ -157,10 +167,10 @@ public class CharacterClass:MonoBehaviour, ICharacter
     public void AttackUnit(GameObject rival) 
     {
        
-        //comprueba si está en el rango de ataque / si es voladora y tú melee etc
+        //comprueba si estï¿½ en el rango de ataque / si es voladora y tï¿½ melee etc
 
 
-        //si lo está se inicia el enfrentamiento entre las unidades
+        //si lo estï¿½ se inicia el enfrentamiento entre las unidades
         int rivalHP = rival.GetComponent<CharacterClass>().health;
         int rivalATK = rival.GetComponent<CharacterClass>().attack;
         string rivalUnit = rival.GetComponent<CharacterClass>().type; //esto por si luego se nos va la olla y metemos velocidad/prioridad de ataques
@@ -169,7 +179,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
         rivalHP = rivalHP - attack;
 
-        Debug.Log("El rival ha sufrido " + attack + "puntos de daño, tiene " + rivalHP + " de vida");
+        Debug.Log("El rival ha sufrido " + attack + "puntos de daï¿½o, tiene " + rivalHP + " de vida");
 
         if (rivalHP <= 0)
         {
@@ -181,7 +191,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         {
             health = health - rivalATK;
 
-            Debug.Log("Tu unidad sufre " + rivalATK + " de daño, tienes " + health + "puntos de vida");
+            Debug.Log("Tu unidad sufre " + rivalATK + " de daï¿½o, tienes " + health + "puntos de vida");
 
             if (health <= 0) {
                 Debug.Log("Tu unidad ha sido derrotada");
@@ -214,7 +224,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
     }
 
 
-    //Puede que esto lo use, puede que se junte con lo del Move al final, no lo sé aún
+    //Puede que esto lo use, puede que se junte con lo del Move al final, no lo sï¿½ aï¿½n
     
     public void InfantryIA() { }
     public void ArcherIA() { }
@@ -230,12 +240,12 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
 
 
-//Esto es cómo lo tenía antes por si luego todo explota 
+//Esto es cï¿½mo lo tenï¿½a antes por si luego explota 
 /*
 public class CharacterClass : Character
 {
     public BoxCollider2D collision;
-    public int movement; //número casillas que se podrá desplazar
+    public int movement; //nï¿½mero casillas que se podrï¿½ desplazar
     public int attackRange;
     public int health;
     public int attack;
@@ -325,15 +335,15 @@ public class CharacterClass : Character
         {
             MoveAerial(x,y);
         }
-        //aquí código 
+        //aquï¿½ cï¿½digo 
     }
     public override void AttackUnit()
     {
         Debug.Log("Esta unidad se mueve " + this.attackRange + " de distancia");
-        //comprueba si está en el rango de ataque 
+        //comprueba si estï¿½ en el rango de ataque 
 
 
-        //si lo está se inicia el enfrentamiento entre las unidades
+        //si lo estï¿½ se inicia el enfrentamiento entre las unidades
     }
 
     public void MoveArcher(int x, int y)
@@ -391,15 +401,15 @@ public class Archer : Character
             }
         }
 
-        public override void moveUnit(int x, int y, int id) //tendría que indicarle a qué tile se mueve (?)
-                                                            //cada unidad que se cree que tenga un id y al mover la unidad mira qué id tiene el pj y a qué tile lo quieres mover
+        public override void moveUnit(int x, int y, int id) //tendrï¿½a que indicarle a quï¿½ tile se mueve (?)
+                                                            //cada unidad que se cree que tenga un id y al mover la unidad mira quï¿½ id tiene el pj y a quï¿½ tile lo quieres mover
                                                             //entonces cambia en el mapa la posicion (y se guarda cuales son sus coordenadas actuales maybe?)
         {
             //se muestra los posibles destinos
 
             Debug.Log("Esta unidad se mueve " + movement + " de distancia");
-            //aquí código (en otro script vendría la IA en sí que una vez decidiese el movimiento llamaría a esta función)
-            //tiene que comprobar si el tile al que lo quieres mover es viable en base a su rango de movimiento (aunque eso maybe se hace más con el pathfinding), si lo es lo mueve, si no no hace nada
+            //aquï¿½ cï¿½digo (en otro script vendrï¿½a la IA en sï¿½ que una vez decidiese el movimiento llamarï¿½a a esta funciï¿½n)
+            //tiene que comprobar si el tile al que lo quieres mover es viable en base a su rango de movimiento (aunque eso maybe se hace mï¿½s con el pathfinding), si lo es lo mueve, si no no hace nada
 
 
             //poner
@@ -407,10 +417,10 @@ public class Archer : Character
         public override void attackUnit()
         {
             
-            //comprueba si está en el rango de ataque
+            //comprueba si estï¿½ en el rango de ataque
 
 
-            //si lo está se inicia el enfrentamiento entre las unidades
+            //si lo estï¿½ se inicia el enfrentamiento entre las unidades
         }
 
     }
@@ -430,15 +440,15 @@ public class Archer : Character
         {
 
             Debug.Log("Esta unidad se mueve " + movement + " de distancia");
-            //aquí código 
+            //aquï¿½ cï¿½digo 
         }
         public override void attackUnit()
         {
             attackRange = 1;
-            //comprueba si está en el rango de ataque
+            //comprueba si estï¿½ en el rango de ataque
 
 
-            //si lo está se inicia el enfrentamiento entre las unidades
+            //si lo estï¿½ se inicia el enfrentamiento entre las unidades
         }
     }
 
@@ -456,15 +466,15 @@ public class Archer : Character
         {
 
             Debug.Log("Esta unidad se mueve " + movement + " de distancia");
-            //aquí código 
+            //aquï¿½ cï¿½digo 
         }
         public override void attackUnit()
         {
             attackRange = 2;
-            //comprueba si está en el rango de ataque
+            //comprueba si estï¿½ en el rango de ataque
 
 
-            //si lo está se inicia el enfrentamiento entre las unidades
+            //si lo estï¿½ se inicia el enfrentamiento entre las unidades
         }
     }
 
@@ -482,15 +492,15 @@ public class Archer : Character
         {
             movement = 4;
             Debug.Log("Esta unidad se mueve " + movement + " de distancia");
-            //aquí código 
+            //aquï¿½ cï¿½digo 
         }
         public override void attackUnit()
         {
             attackRange = 2;
-            //comprueba si está en el rango de ataque
+            //comprueba si estï¿½ en el rango de ataque
 
 
-            //si lo está se inicia el enfrentamiento entre las unidades
+            //si lo estï¿½ se inicia el enfrentamiento entre las unidades
         }
     }
 

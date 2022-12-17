@@ -20,9 +20,12 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
 
     private int currentPathIndex;
     private List<Vector3> pathVectorList;
+    private CharacterClass characterClass;
 
 
-    private void Start() {
+    private void Start()
+    {
+        characterClass = gameObject.GetComponent<CharacterClass>();
     }
 
     private void Update() {
@@ -57,9 +60,12 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         return transform.position;
     }
 
-    public void SetTargetPosition(Vector3 targetPosition) {
+    public void SetTargetPosition(Vector3 targetPosition)
+    {
+        var characterType = characterClass.GetType();
+        var characterMovement = characterClass.GetMovement();
         currentPathIndex = 0;
-        pathVectorList = Pathfinding.Instance.FindPath(GetPosition(), targetPosition);
+        pathVectorList = Pathfinding.Instance.FindPath(GetPosition(), targetPosition, characterMovement);
 
         if (pathVectorList != null && pathVectorList.Count > 1) {
             pathVectorList.RemoveAt(0);

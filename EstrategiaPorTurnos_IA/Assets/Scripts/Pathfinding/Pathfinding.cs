@@ -28,9 +28,8 @@ public class Pathfinding
         return _grid;
     }
 
-    public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 endWorldPos)
+    public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 endWorldPos, int characterMovement)
     {
-        
         _grid.GetXY(startWorldPos, out var startX, out var startY);
         _grid.GetXY(endWorldPos, out var endX, out var endY);
 
@@ -41,6 +40,9 @@ public class Pathfinding
         var vPath = new List<Vector3>();
         foreach (var pathNode in path)
         {
+            if (characterMovement <= 0)
+                break;
+            characterMovement -= pathNode.gCost;
             vPath.Add(new Vector3(pathNode.x, pathNode.y) * _grid.GetCellSize() + Vector3.one * _grid.GetCellSize() * .5f);
         }
         return vPath;
@@ -66,10 +68,11 @@ public class Pathfinding
                 {
                     case Tilemap.TilemapObject.TilemapSprite.Ground:
                         pathNode.spriteType = "ground";
-                        pathNode.movementPenalty = 5;
+                        pathNode.movementPenalty = 0;
                         break;
                     case Tilemap.TilemapObject.TilemapSprite.Path:
                         pathNode.spriteType = "path";
+                        pathNode.movementPenalty = -10;
                         break;
                     case Tilemap.TilemapObject.TilemapSprite.Water:
                         pathNode.spriteType = "water";

@@ -53,7 +53,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         pathVectorList = null;
     }
 
-    public Vector3 GetPosition() {
+    private Vector3 GetPosition() {
         return transform.position;
     }
 

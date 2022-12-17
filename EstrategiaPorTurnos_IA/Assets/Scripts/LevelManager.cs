@@ -11,8 +11,8 @@ public class LevelManager : MonoBehaviour
     private Tilemap.TilemapObject.TilemapSprite[,] spriteMatrix = new Tilemap.TilemapObject.TilemapSprite[grid_x_size, grid_y_simetrico];    //Matriz para guardar el tipo de tile y pasarlo al pathfinding para calcular pesos
     private Grid<Tilemap.TilemapObject> tilemapGrid;    //El grid del tilemap para poder sacar cada uno de los objetos y comprobar su tipo de tile
     
-    public CharacterPathfindingMovementHandler characterPathfinding;
-    private Pathfinding _pathfinding;
+    //public CharacterPathfindingMovementHandler characterPathfinding;
+    private Pathfinding _pathfinding;   //Pone que no se usa pero realmente si se usa al pasarle el spriteMatrix
     
     int x,y;
     static int grid_x_size = 20;
@@ -43,7 +43,8 @@ public class LevelManager : MonoBehaviour
         _timer = 0f;
     }
     
-    private void CalculatePath()
+    //Esta comentado esto y el update porque el characterPathfindingMovementHandler ya hace eso
+    /*private void CalculatePath()  
     {
         var mouseWorldPosition = GetMouseWorldPosition();
         _pathfinding.GetGrid().GetXY(mouseWorldPosition, out int x, out int y);
@@ -68,9 +69,9 @@ public class LevelManager : MonoBehaviour
             CalculatePath();
         }
         _timer -= Time.deltaTime;
-    }
+    }*/
 
-    private static Vector3 GetMouseWorldPosition()
+    /*private static Vector3 GetMouseWorldPosition()
     {
         var vec = GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);
         vec.z = 0f;
@@ -80,27 +81,10 @@ public class LevelManager : MonoBehaviour
     {
         var worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
         return worldPosition;
-    }
+    }*/
     
     private void GenerateMap(){
-        //Ground -->> tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Ground;
-        //Path  -->> tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
-        //Water -->> tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Water;
-        //Dirt -->> tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Dirt;
-        //Mountain -->> tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Mountain;
-        /*Invoke(nameof(GenerateGround), .1f);
-        Invoke(nameof(GenerateWater), .1f);
-        Invoke(nameof(GenerateMountains), .1f);
-        Invoke(nameof(GenerateDirt), .1f);
-        Invoke(nameof(GeneratePath), .1f);*/
-        /*GenerateGround();
-        GenerateMountains();
-        GenerateWater();
-        GenerateDirt();
-        GeneratePath();*/
-        
         StartCoroutine(Timer());
-
     }
 
     IEnumerator Timer()

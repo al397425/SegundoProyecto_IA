@@ -80,7 +80,7 @@ public class UnitSelection : MonoBehaviour
                 pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
                 currentUnit = go;
                 currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = true;
-                currentUnit.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(currentUnit.transform.position);
+                //currentUnit.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(currentUnit.transform.position);    //Comentado porque creo que no hacen falta
 
 
             }
@@ -97,7 +97,7 @@ public class UnitSelection : MonoBehaviour
             pastUnit = go;
             currentUnit = go;
             currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = true;
-            currentUnit.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(currentUnit.transform.position);
+            //currentUnit.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(currentUnit.transform.position);    //Comentado porque creo que no hacen falta
         }
         
 

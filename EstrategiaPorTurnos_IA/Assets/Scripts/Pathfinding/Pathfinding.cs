@@ -20,7 +20,7 @@ public class Pathfinding
     public Pathfinding(int width, int height, Tilemap.TilemapObject.TilemapSprite[,] spriteMatrix)
     {
         Instance = this;
-        _grid = new Grid<PathNode>(width, height, 10f, Vector3.zero, (g, x, y) => new PathNode(g, x, y));
+        _grid = new Grid<PathNode>(width, height, 10f, Vector3.zero, (g, x, y) => new PathNode(g, x, y, 0));
         _spriteMatrix = spriteMatrix;
     }
     
@@ -61,9 +61,27 @@ public class Pathfinding
                 pathNode.gCost = int.MaxValue;
                 pathNode.CalculateFCost();
                 pathNode.parent = null;
-                
-                
-                pathNode.spriteType = _spriteMatrix[x, y] switch    //Esto sera utilizado para comprobar los pesos segun el terreno
+
+                switch (_spriteMatrix[x, y])
+                {
+                    case Tilemap.TilemapObject.TilemapSprite.Ground:
+                        pathNode.spriteType = "ground";
+                        pathNode.movementPenalty = 5;
+                        break;
+                    case Tilemap.TilemapObject.TilemapSprite.Path:
+                        pathNode.spriteType = "path";
+                        break;
+                    case Tilemap.TilemapObject.TilemapSprite.Water:
+                        pathNode.spriteType = "water";
+                        break;
+                    case Tilemap.TilemapObject.TilemapSprite.Mountain:
+                        pathNode.spriteType = "mountain";
+                        break;
+                    default:
+                        pathNode.spriteType = "";
+                        break;
+                }
+                /*pathNode.spriteType = _spriteMatrix[x, y] switch    //Esto sera utilizado para comprobar los pesos segun el terreno
                 {
                     Tilemap.TilemapObject.TilemapSprite.Ground => "ground",
                     Tilemap.TilemapObject.TilemapSprite.Path => "path",
@@ -71,7 +89,7 @@ public class Pathfinding
                     Tilemap.TilemapObject.TilemapSprite.Water => "water",
                     Tilemap.TilemapObject.TilemapSprite.Mountain => "mountain",
                     _ => ""
-                };
+                };*/
             }
         }
 
@@ -92,12 +110,12 @@ public class Pathfinding
 
             foreach (var neighbourNode in GetNeighbourList(currentNode))
             { 
-                if (neighbourNode.spriteType == "water")
+                if (neighbourNode.spriteType is "water" or "mountain")
                     _closedNodes.Add(neighbourNode);
                 
                 if (!_closedNodes.Contains(neighbourNode))
                 { 
-                    var possibleGCost = currentNode.gCost + CalculateDistance(currentNode, neighbourNode); 
+                    var possibleGCost = currentNode.gCost + CalculateDistance(currentNode, neighbourNode) + neighbourNode.movementPenalty; 
                     if (possibleGCost < neighbourNode.gCost)
                     {
                         neighbourNode.parent = currentNode;

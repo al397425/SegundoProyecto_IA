@@ -6,19 +6,18 @@ public class PathNode
 {
     private Grid<PathNode> _grid;
     public int x, y;
-    
-    public int gCost, hCost, fCost;
-    public PathNode parent;
 
-    public bool isRiver;
+    public int gCost, hCost, fCost;
+    public int movementPenalty;
+    public PathNode parent;
     public string spriteType;
     
-    public PathNode(Grid<PathNode> grid, int x, int y)
+    public PathNode(Grid<PathNode> grid, int x, int y, int penalty)
     {
         _grid = grid;
         this.x = x;
         this.y = y;
-        isRiver = false;
+        movementPenalty = penalty;
         spriteType = "";
     }
 

@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
                 
             }
         }*/
-        _pathfinding = new Pathfinding(grid_x_size, grid_y_simetrico, spriteMatrix);
+        _pathfinding = new Pathfinding(grid_x_size, grid_y_size, spriteMatrix);
         /*_pathfinding.GetNode(2, 0).isRiver = true;
         _pathfinding.GetNode(5, 0).isRiver = true;*/
         _timer = 0f;

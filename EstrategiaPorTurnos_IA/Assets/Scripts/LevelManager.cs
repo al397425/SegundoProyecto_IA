@@ -7,13 +7,7 @@ public class LevelManager : MonoBehaviour
     public TilemapVisual tilemapVisual;
     private Tilemap tilemap;
     private Tilemap.TilemapObject.TilemapSprite tilemapSprite;
-    int x,y;
-    static int grid_x_size;
-    static int grid_y_size;
-    int DivGridx;
-    int DivGridy;
-    int total_size;
-    int adaptative_Quantity;
+
     private Tilemap.TilemapObject.TilemapSprite[,] spriteMatrix = new Tilemap.TilemapObject.TilemapSprite[grid_x_size, grid_y_size];    //Matriz para guardar el tipo de tile y pasarlo al pathfinding para calcular pesos
     private Grid<Tilemap.TilemapObject> tilemapGrid;    //El grid del tilemap para poder sacar cada uno de los objetos y comprobar su tipo de tile
     
@@ -97,6 +91,15 @@ public class LevelManager : MonoBehaviour
         GeneratePath();
     }
 
+    private void CheckIfTileInside(int possibleX, int possibleY, Tilemap.TilemapObject.TilemapSprite tilemapSprite)
+    {
+        if (possibleX >= 0 && possibleX < grid_x_size && possibleY >= 0 && possibleY < grid_y_size)
+        {
+            tilemap.SetTilemapSprite(possibleX, possibleY, tilemapSprite);
+            spriteMatrix[possibleX, possibleY] = tilemapSprite;
+        }
+    }
+    
     private void GenerateLake()
     {
         var cantidad = Random.Range(5 + adaptative_Quantity, 9 + adaptative_Quantity);   //Cantidad de lagos. Aleatoria?
@@ -143,10 +146,16 @@ public class LevelManager : MonoBehaviour
             {
                 //Lago cuadrado
                 case 1:
-                    originX = Random.Range(1, grid_x_size - 1);
-                    originY = Random.Range(DivGridy +2, grid_y_size - 3);
 
-                    tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
+                    originX = Random.Range(0, grid_x_size);
+                    originY = Random.Range(0, grid_y_simetrico);
+
+                    CheckIfTileInside(originX, originY, Tilemap.TilemapObject.TilemapSprite.Water);
+                    CheckIfTileInside(originX + 1, originY, Tilemap.TilemapObject.TilemapSprite.Water);
+                    CheckIfTileInside(originX + 1, originY - 1, Tilemap.TilemapObject.TilemapSprite.Water);
+                    CheckIfTileInside(originX, originY - 1, Tilemap.TilemapObject.TilemapSprite.Water);
+                    /*tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
+
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Water;
 
                     tilemap.SetTilemapSprite(originX + 1, originY, tilemapSprite);
@@ -156,20 +165,28 @@ public class LevelManager : MonoBehaviour
                     spriteMatrix[originX + 1, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
 
                     tilemap.SetTilemapSprite(originX, originY - 1, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
+                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;*/
                     //--------------------------------------------------------------------------------//
                     //simetrico//
-                    tilemap.SetTilemapSprite(originX, originY - DivGridy, tilemapSprite);
-                    spriteMatrix[originX, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Water;
 
-                    tilemap.SetTilemapSprite(originX + 1, originY - DivGridy, tilemapSprite);
-                    spriteMatrix[originX + 1, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Water;
+                    CheckIfTileInside(originX, originY + 10, Tilemap.TilemapObject.TilemapSprite.Water);
+                    CheckIfTileInside(originX + 1, originY + 10, Tilemap.TilemapObject.TilemapSprite.Water);
+                    CheckIfTileInside(originX + 1, originY + 9, Tilemap.TilemapObject.TilemapSprite.Water);
+                    CheckIfTileInside(originX, originY + 9, Tilemap.TilemapObject.TilemapSprite.Water);
+                    /*tilemap.SetTilemapSprite(originX, originY+10, tilemapSprite);
+                    spriteMatrix[originX, originY + 10] = Tilemap.TilemapObject.TilemapSprite.Water;
+
 
                     tilemap.SetTilemapSprite(originX + 1, originY - DivGridy - 1 , tilemapSprite);
                     spriteMatrix[originX + 1, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
 
                     tilemap.SetTilemapSprite(originX, originY - DivGridy  - 1 , tilemapSprite);
                     spriteMatrix[originX, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
+
+
+
+                    tilemap.SetTilemapSprite(originX, originY+10 - 1, tilemapSprite);
+                    spriteMatrix[originX, originY+10 - 1] = Tilemap.TilemapObject.TilemapSprite.Water;*/
 
                     break;
                 //Lago diamante
@@ -226,26 +243,9 @@ public class LevelManager : MonoBehaviour
         
         for (int i = 0; i < cantidad; i++)
         {
-            MountainType = Random.Range(1, 4);
-            MountainTypeMid = Random.Range(1, 3);
-            switch (MountainTypeMid)
-            {
-                case 1: //Center of the map
 
-                originXMid = Random.Range(1, grid_x_size - 2);
-                originYMid = Random.Range(DivGridy -1, DivGridy +3);
+            MountainType = Random.Range(1, 5);
 
-                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
-                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                break;
-
-                case 2: //Center of the map
-
-                originXMid = Random.Range(1, grid_x_size - 2);
-                originYMid = Random.Range(DivGridy -1, DivGridy +3);
-
-                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
-                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Mountain;
 
                 tilemap.SetTilemapSprite(originXMid + 1, originYMid, tilemapSprite);
                 spriteMatrix[originXMid + 1, originYMid] = Tilemap.TilemapObject.TilemapSprite.Mountain;

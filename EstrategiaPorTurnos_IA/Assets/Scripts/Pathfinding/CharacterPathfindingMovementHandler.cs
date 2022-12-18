@@ -65,7 +65,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
         var characterType = characterClass.GetType();
         var characterMovement = characterClass.GetMovement();
         currentPathIndex = 0;
-        pathVectorList = Pathfinding.Instance.FindPath(GetPosition(), targetPosition, characterMovement);
+        pathVectorList = Pathfinding.Instance.FindPath(GetPosition(), targetPosition, characterMovement, characterType);
 
         if (pathVectorList != null && pathVectorList.Count > 1) {
             pathVectorList.RemoveAt(0);

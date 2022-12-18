@@ -156,6 +156,7 @@ public class LevelManager : MonoBehaviour
                     CheckIfTileInside(originX + 1, originY - 1, Tilemap.TilemapObject.TilemapSprite.Water);
                     CheckIfTileInside(originX, originY - 1, Tilemap.TilemapObject.TilemapSprite.Water);
                     /*tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
+
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Water;
 
                     tilemap.SetTilemapSprite(originX + 1, originY, tilemapSprite);
@@ -177,14 +178,13 @@ public class LevelManager : MonoBehaviour
                     spriteMatrix[originX, originY + 10] = Tilemap.TilemapObject.TilemapSprite.Water;
 
 
-                    tilemap.SetTilemapSprite(originX + 1, originY - DivGridy, tilemapSprite);
-                    spriteMatrix[originX + 1, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Water;
 
                     tilemap.SetTilemapSprite(originX + 1, originY - DivGridy - 1 , tilemapSprite);
                     spriteMatrix[originX + 1, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
 
                     tilemap.SetTilemapSprite(originX, originY - DivGridy  - 1 , tilemapSprite);
                     spriteMatrix[originX, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
+
 
 
                     tilemap.SetTilemapSprite(originX, originY+10 - 1, tilemapSprite);
@@ -249,20 +249,6 @@ public class LevelManager : MonoBehaviour
             MountainType = Random.Range(1, 5);
 
 
-                originXMid = Random.Range(1, grid_x_size - 2);
-                originYMid = Random.Range(DivGridy -1, DivGridy +3);
-
-                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
-                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                break;
-
-                case 2: //Center of the map
-
-                originXMid = Random.Range(1, grid_x_size - 2);
-                originYMid = Random.Range(DivGridy -1, DivGridy +3);
-
-                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
-                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Mountain;
 
                 tilemap.SetTilemapSprite(originXMid + 1, originYMid, tilemapSprite);
                 spriteMatrix[originXMid + 1, originYMid] = Tilemap.TilemapObject.TilemapSprite.Mountain;

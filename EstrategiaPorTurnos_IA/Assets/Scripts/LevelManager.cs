@@ -7,30 +7,45 @@ public class LevelManager : MonoBehaviour
     public TilemapVisual tilemapVisual;
     private Tilemap tilemap;
     private Tilemap.TilemapObject.TilemapSprite tilemapSprite;
-    
+
     private Tilemap.TilemapObject.TilemapSprite[,] spriteMatrix = new Tilemap.TilemapObject.TilemapSprite[grid_x_size, grid_y_size];    //Matriz para guardar el tipo de tile y pasarlo al pathfinding para calcular pesos
     private Grid<Tilemap.TilemapObject> tilemapGrid;    //El grid del tilemap para poder sacar cada uno de los objetos y comprobar su tipo de tile
     
     //public CharacterPathfindingMovementHandler characterPathfinding;
     private Pathfinding _pathfinding;   //Pone que no se usa pero realmente si se usa al pasarle el spriteMatrix
     
-    int x,y;
+   
+
+    /*
     static int grid_x_size = 20;
-    static int grid_y_simetrico = 10;
+    static int grid_y_size = 10;
     static int grid_y_size = 20;
     static int total_size = grid_x_size * grid_y_size;
+    */
     private float _timer;
     private void Start()
     {
+        grid_x_size = Random.Range(20, 30);
+        grid_y_size = Random.Range(20, 30);
+
+        float fDivGridx = (grid_x_size / 20f)*10f;
+        DivGridx = (int)fDivGridx;
+        float fDivGridy = (grid_y_size / 20f)*10f;
+        float fadaptative_Quantity = ((grid_y_size / 20f) / 2f) *10f;
+        adaptative_Quantity = (int)fadaptative_Quantity;
+        DivGridy = (int)fDivGridy;
+        int total_size = grid_x_size * grid_y_size;
+
         spriteMatrix = new Tilemap.TilemapObject.TilemapSprite[grid_x_size, grid_y_size];
         tilemap = new Tilemap(grid_x_size, grid_y_size, 10f, Vector3.zero);
         tilemap.SetTilemapVisual(tilemapVisual);
+       
         GenerateMap();
         
         /*tilemapGrid = tilemap.GetTilemapGrid();
         for (var i = 0; x < grid_x_size; x++)
         {
-            for (var j = 0; y < grid_y_simetrico; y++)
+            for (var j = 0; y < grid_y_size; y++)
             {
                 Tilemap.TilemapObject gridObject = tilemapGrid.GetGridObject(i, j);
                 spriteMatrix[i, j] = gridObject.GetTilemapSprite();
@@ -42,7 +57,6 @@ public class LevelManager : MonoBehaviour
         _pathfinding.GetNode(5, 0).isRiver = true;*/
         _timer = 0f;
     }
-    
     //Esta comentado esto y el update porque el characterPathfindingMovementHandler ya hace eso
     /*private void CalculatePath()  
     {
@@ -60,29 +74,7 @@ public class LevelManager : MonoBehaviour
         if (path == null)
             Debug.Log("No path found");
     }
-    
-    private void Update()
-    {
-        if (Input.GetMouseButton(1) && _timer <= 0f)
-        {
-            _timer = .1f;
-            CalculatePath();
-        }
-        _timer -= Time.deltaTime;
-    }*/
-
-    /*private static Vector3 GetMouseWorldPosition()
-    {
-        var vec = GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);
-        vec.z = 0f;
-        return vec;
-    }
-    private static Vector3 GetMouseWorldPositionWithZ(Vector3 screenPosition, Camera worldCamera)
-    {
-        var worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
-        return worldPosition;
-    }*/
-    
+    */
     private void GenerateMap(){
         StartCoroutine(Timer());
     }
@@ -91,8 +83,6 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         GenerateGround();
-        /*yield return new WaitForSeconds(1f);
-        GenerateDirt();*/
         yield return new WaitForSeconds(1f);
         GenerateMountains();
         yield return new WaitForSeconds(1f);
@@ -112,20 +102,51 @@ public class LevelManager : MonoBehaviour
     
     private void GenerateLake()
     {
-        var cantidad = Random.Range(5, 11);   //Cantidad de lagos. Aleatoria?
+        var cantidad = Random.Range(5 + adaptative_Quantity, 9 + adaptative_Quantity);   //Cantidad de lagos. Aleatoria?
         int lakeType;
+        int lakeTypeMid;
+        int originXMid, originYMid;
         int originX, originY;  //Origen del primer cuadrado del lago. Se haria aleatoriamente. Quizas entre [2, x-2] [y, 3] 
         tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Water;
-        
-        
+
         for (int i = 0; i < cantidad; i++)
         {
             lakeType = Random.Range(1, 3);
+            lakeTypeMid = Random.Range(1, 2);
+            switch (lakeTypeMid)
+            {
+                case 1: //Center of the map
 
+                originXMid = Random.Range(1, grid_x_size - 2);
+                originYMid = Random.Range(DivGridy -1, DivGridy +3);
+
+                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
+                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Water;
+
+                tilemap.SetTilemapSprite(originXMid + 1, originYMid, tilemapSprite);
+                spriteMatrix[originXMid + 1, originYMid] = Tilemap.TilemapObject.TilemapSprite.Water;
+                break;
+
+                case 2: //Center of the map
+
+                originXMid = Random.Range(1, grid_x_size - 1);
+                originYMid = Random.Range(DivGridy -1, DivGridy +3);
+
+                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
+                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Water;
+
+                tilemap.SetTilemapSprite(originXMid + 1, originYMid, tilemapSprite);
+                spriteMatrix[originXMid + 1, originYMid] = Tilemap.TilemapObject.TilemapSprite.Water;
+
+                tilemap.SetTilemapSprite(originXMid , originYMid - 1, tilemapSprite);
+                spriteMatrix[originXMid , originYMid - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
+                break;
+            }
             switch (lakeType)
             {
                 //Lago cuadrado
                 case 1:
+
                     originX = Random.Range(0, grid_x_size);
                     originY = Random.Range(0, grid_y_simetrico);
 
@@ -134,6 +155,7 @@ public class LevelManager : MonoBehaviour
                     CheckIfTileInside(originX + 1, originY - 1, Tilemap.TilemapObject.TilemapSprite.Water);
                     CheckIfTileInside(originX, originY - 1, Tilemap.TilemapObject.TilemapSprite.Water);
                     /*tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
+
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Water;
 
                     tilemap.SetTilemapSprite(originX + 1, originY, tilemapSprite);
@@ -146,6 +168,7 @@ public class LevelManager : MonoBehaviour
                     spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;*/
                     //--------------------------------------------------------------------------------//
                     //simetrico//
+
                     CheckIfTileInside(originX, originY + 10, Tilemap.TilemapObject.TilemapSprite.Water);
                     CheckIfTileInside(originX + 1, originY + 10, Tilemap.TilemapObject.TilemapSprite.Water);
                     CheckIfTileInside(originX + 1, originY + 9, Tilemap.TilemapObject.TilemapSprite.Water);
@@ -153,20 +176,24 @@ public class LevelManager : MonoBehaviour
                     /*tilemap.SetTilemapSprite(originX, originY+10, tilemapSprite);
                     spriteMatrix[originX, originY + 10] = Tilemap.TilemapObject.TilemapSprite.Water;
 
-                    tilemap.SetTilemapSprite(originX + 1, originY+10, tilemapSprite);
-                    spriteMatrix[originX + 1, originY+10] = Tilemap.TilemapObject.TilemapSprite.Water;
 
-                    tilemap.SetTilemapSprite(originX + 1, originY+10 - 1, tilemapSprite);
-                    spriteMatrix[originX + 1, originY+10 - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
+                    tilemap.SetTilemapSprite(originX + 1, originY - DivGridy - 1 , tilemapSprite);
+                    spriteMatrix[originX + 1, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
+
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy  - 1 , tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
+
+
 
                     tilemap.SetTilemapSprite(originX, originY+10 - 1, tilemapSprite);
                     spriteMatrix[originX, originY+10 - 1] = Tilemap.TilemapObject.TilemapSprite.Water;*/
+
                     break;
                 //Lago diamante
                 case 2:
-                    originX = Random.Range(3, grid_x_size - 2);
-                    originY = Random.Range(grid_y_simetrico - 3, 3);
-                    
+                    originX = Random.Range(2, grid_x_size - 1);
+                    originY = Random.Range(DivGridy +3, grid_y_size -3);
+
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Water;
                     
@@ -184,42 +211,68 @@ public class LevelManager : MonoBehaviour
                     //--------------------------------------------------------------------------------//
                     //simetrico//
                     
-                    tilemap.SetTilemapSprite(originX, originY+10, tilemapSprite);
-                    spriteMatrix[originX, originY+10] = Tilemap.TilemapObject.TilemapSprite.Water;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Water;
                     
-                    tilemap.SetTilemapSprite(originX, originY+10 + 1, tilemapSprite);
-                    spriteMatrix[originX, originY+10 + 1] = Tilemap.TilemapObject.TilemapSprite.Water;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy + 1 * DivGridx, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy + 1] = Tilemap.TilemapObject.TilemapSprite.Water;
 
-                    tilemap.SetTilemapSprite(originX + 1, originY+10, tilemapSprite);
-                    spriteMatrix[originX + 1, originY+10] = Tilemap.TilemapObject.TilemapSprite.Water;
+                    tilemap.SetTilemapSprite(originX + 1, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX + 1, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Water;
                     
-                    tilemap.SetTilemapSprite(originX, originY+10 - 1, tilemapSprite);
-                    spriteMatrix[originX, originY+10 - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy - 1, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
                     
-                    tilemap.SetTilemapSprite(originX - 1, originY+10, tilemapSprite);
-                    spriteMatrix[originX - 1, originY+10] = Tilemap.TilemapObject.TilemapSprite.Water;
+                    tilemap.SetTilemapSprite(originX - 1, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX - 1, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Water;
+
                     break;
             }
         }
+
     }
     
     private void GenerateMountains()
     {
-        var cantidad = Random.Range(5, 11);   //Cantidad de lagos. Aleatoria?
+        var cantidad = Random.Range(5 + adaptative_Quantity, 9 + adaptative_Quantity);   //Cantidad de lagos. Aleatoria?
         int MountainType;
+        int MountainTypeMid;
+        int originXMid, originYMid;
         int originX, originY;  //Origen del primer cuadrado del lago. Se haria aleatoriamente. Quizas entre [2, x-2] [y, 3] 
         tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Mountain;
         
         for (int i = 0; i < cantidad; i++)
         {
+
             MountainType = Random.Range(1, 5);
 
+
+                tilemap.SetTilemapSprite(originXMid + 1, originYMid, tilemapSprite);
+                spriteMatrix[originXMid + 1, originYMid] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+
+                tilemap.SetTilemapSprite(originXMid , originYMid - 1, tilemapSprite);
+                spriteMatrix[originXMid , originYMid - 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                break;
+
+                case 3:
+
+                originXMid = Random.Range(1, grid_x_size - 2);
+                originYMid = Random.Range(DivGridy -1, DivGridy +3);
+
+                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
+                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+
+                tilemap.SetTilemapSprite(originXMid + 1, originYMid, tilemapSprite);
+                spriteMatrix[originXMid + 1, originYMid] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                break;
+            }
             switch (MountainType)
             {
                 //mountaña cuadrada
                 case 1:
-                    originX = Random.Range(2, grid_x_size - 2);
-                    originY = Random.Range(grid_y_simetrico - 1, 3);
+                    
+                    originX = Random.Range(1, grid_x_size-1);
+                    originY = Random.Range(DivGridy +2, grid_y_size-1);
 
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Mountain;
@@ -234,24 +287,25 @@ public class LevelManager : MonoBehaviour
                     spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     //--------------------------------------------------------------------------------//
                     //simetrico//
-                    
-                    tilemap.SetTilemapSprite(originX, originY+10, tilemapSprite);
-                    spriteMatrix[originX, originY+10] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Mountain;
 
-                    tilemap.SetTilemapSprite(originX + 1, originY+10, tilemapSprite);
-                    spriteMatrix[originX + 1, originY+10] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX + 1, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX + 1, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Mountain;
 
-                    tilemap.SetTilemapSprite(originX + 1, originY+10 - 1, tilemapSprite);
-                    spriteMatrix[originX + 1, originY+10 - 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX + 1, originY - DivGridy - 1 , tilemapSprite);
+                    spriteMatrix[originX + 1, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
 
-                    tilemap.SetTilemapSprite(originX, originY+10 - 1, tilemapSprite);
-                    spriteMatrix[originX, originY+10 - 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy - 1, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+
                     break;
                 //Montaña diamante
                 case 2:
-                    originX = Random.Range(3, grid_x_size - 2);
-                    originY = Random.Range(grid_y_simetrico - 3, 3);
-                    
+
+                    originX = Random.Range(1, grid_x_size -1);
+                    originY = Random.Range(DivGridy +2, grid_y_size-1);
+
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     
@@ -268,39 +322,42 @@ public class LevelManager : MonoBehaviour
                     spriteMatrix[originX - 1, originY] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     //--------------------------------------------------------------------------------//
                     //simetrico//
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     
-                    tilemap.SetTilemapSprite(originX, originY+10, tilemapSprite);
-                    spriteMatrix[originX, originY+10] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                    
-                    tilemap.SetTilemapSprite(originX, originY+10 + 1, tilemapSprite);
-                    spriteMatrix[originX, originY+10 + 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy + 1, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy + 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
 
-                    tilemap.SetTilemapSprite(originX + 1, originY+10, tilemapSprite);
-                    spriteMatrix[originX + 1, originY+10] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX + 1, originY - DivGridy , tilemapSprite);
+                    spriteMatrix[originX + 1, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     
-                    tilemap.SetTilemapSprite(originX, originY+10 - 1, tilemapSprite);
-                    spriteMatrix[originX, originY+10 - 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy - 1, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy - 1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     
-                    tilemap.SetTilemapSprite(originX - 1, originY+10, tilemapSprite);
-                    spriteMatrix[originX - 1, originY+10] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX - 1, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX - 1, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+
                     break;
                     //Montaña sola
                 case 3:
-                    originX = Random.Range(3, grid_x_size - 2);
-                    originY = Random.Range(grid_y_simetrico - 1, 3);
-    
-                    tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
+
+                    originX = Random.Range(1, grid_x_size -1);
+                    originY = Random.Range(DivGridy +2, grid_y_size -1);
+
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     //--------------------------------------------------------------------------------//
                     //simetrico//
-                    tilemap.SetTilemapSprite(originX, originY+10, tilemapSprite);
-                    spriteMatrix[originX, originY+10] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+
                     break;
                 //Montaña L
                 case 4:
-                    originX = Random.Range(3, grid_x_size - 2);
-                    originY = Random.Range(grid_y_simetrico - 2, 3);
-    
+
+                    originX = Random.Range(2, grid_x_size -1);
+                    originY = Random.Range(DivGridy +2, grid_y_size -1);
+
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Mountain;
 
@@ -317,23 +374,26 @@ public class LevelManager : MonoBehaviour
                     spriteMatrix[originX - 1, originY +1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     //--------------------------------------------------------------------------------//
                     //simetrico//
-                    tilemap.SetTilemapSprite(originX, originY+10, tilemapSprite);
-                    spriteMatrix[originX, originY+10] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                    tilemap.SetTilemapSprite(originX, originY + 11, tilemapSprite);
-                    spriteMatrix[originX, originY +11] = Tilemap.TilemapObject.TilemapSprite.Mountain;
 
-                    tilemap.SetTilemapSprite(originX + 1, originY +10, tilemapSprite);
-                    spriteMatrix[originX + 1, originY +10] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy +1, tilemapSprite);
+                    spriteMatrix[originX, originY +DivGridy +1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+
+                    tilemap.SetTilemapSprite(originX + 1, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX + 1, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     
-                    tilemap.SetTilemapSprite(originX +1, originY + 11, tilemapSprite);
-                    spriteMatrix[originX +1, originY+11 ] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX +1, originY - DivGridy + 1, tilemapSprite);
+                    spriteMatrix[originX +1, originY - DivGridy +1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
                     
-                    tilemap.SetTilemapSprite(originX - 1, originY +11, tilemapSprite);
-                    spriteMatrix[originX - 1, originY +11] = Tilemap.TilemapObject.TilemapSprite.Mountain;
+                    tilemap.SetTilemapSprite(originX - 1, originY - DivGridy +1, tilemapSprite);
+                    spriteMatrix[originX - 1, originY - DivGridy +1] = Tilemap.TilemapObject.TilemapSprite.Mountain;
 
                     break;
             }
         }
+
     }
     private void GenerateGround(){
         tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Ground;
@@ -347,21 +407,61 @@ public class LevelManager : MonoBehaviour
         }
     }
     private void GeneratePath(){
-        var cantidad = Random.Range(4, 10);   //Cantidad de lagos. Aleatoria?
+        var cantidad = Random.Range(5 + adaptative_Quantity, 9 + adaptative_Quantity);   //Cantidad de lagos. Aleatoria?
         int PathType;
+        int PathTypeMid;
+        int originXMid, originYMid;
         int originX, originY;  //Origen del primer cuadrado del lago. Se haria aleatoriamente. Quizas entre [2, x-2] [y, 3] 
         tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
-        
+
         for (int i = 0; i < cantidad; i++)
         {
             PathType = Random.Range(1, 4);
+            PathTypeMid = Random.Range(1, 3);
+            switch (PathTypeMid)
+            {
+                case 1: //Center of the map
 
+                originXMid = Random.Range(2, grid_x_size -1);
+                originYMid = Random.Range(DivGridy -1, DivGridy +3);
+
+                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
+                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Path;
+                break;
+
+                case 2: //Center of the map
+
+                originXMid = Random.Range(4, grid_x_size -2);
+                originYMid = Random.Range(DivGridy -1, DivGridy +3);
+
+                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
+                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Path;
+
+                tilemap.SetTilemapSprite(originXMid + 1, originYMid, tilemapSprite);
+                spriteMatrix[originXMid + 1, originYMid] = Tilemap.TilemapObject.TilemapSprite.Path;
+
+                tilemap.SetTilemapSprite(originXMid , originYMid - 1, tilemapSprite);
+                spriteMatrix[originXMid , originYMid - 1] = Tilemap.TilemapObject.TilemapSprite.Path;
+                break;
+
+                case 3:
+
+                originXMid = Random.Range(4, grid_x_size -3);
+                originYMid = Random.Range(DivGridy -1, DivGridy +3);
+
+                tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
+                spriteMatrix[originXMid, originYMid] = Tilemap.TilemapObject.TilemapSprite.Path;
+
+                tilemap.SetTilemapSprite(originXMid , originYMid +1, tilemapSprite);
+                spriteMatrix[originXMid, originYMid +1] = Tilemap.TilemapObject.TilemapSprite.Path;
+                break;
+            }
             switch (PathType)
             {
                 //Path vertical
                 case 1:
-                    originX = Random.Range(2, grid_x_size - 2);
-                    originY = Random.Range(grid_y_simetrico - 5, 3);
+                    originX = Random.Range(4, grid_x_size -3);
+                    originY = Random.Range(DivGridy +2, grid_y_size - 5);
 
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Path;
@@ -381,25 +481,27 @@ public class LevelManager : MonoBehaviour
                     //--------------------------------------------------------------------------------//
                     //simetrico//
                     
-                    tilemap.SetTilemapSprite(originX, originY+10, tilemapSprite);
-                    spriteMatrix[originX, originY+10] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX, originY+11, tilemapSprite);
-                    spriteMatrix[originX + 1, originY+11] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy + 1, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy +1] = Tilemap.TilemapObject.TilemapSprite.Path;
+ 
+                    tilemap.SetTilemapSprite(originX , originY - DivGridy + 2, tilemapSprite);
+                    spriteMatrix[originX , originY - DivGridy +3] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX , originY+12, tilemapSprite);
-                    spriteMatrix[originX + 1, originY+12 ] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy + 3, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy +3] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX, originY+13, tilemapSprite);
-                    spriteMatrix[originX, originY+13 ] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy + 4, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy + 4] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX, originY+14, tilemapSprite);
-                    spriteMatrix[originX, originY+14 ] = Tilemap.TilemapObject.TilemapSprite.Path;
                     break;
                 //vertical 3
                 case 2:
-                    originX = Random.Range(2, grid_x_size - 2);
-                    originY = Random.Range(grid_y_simetrico - 5, 3);
+                    originX = Random.Range(4, grid_x_size -2);
+                    originY = Random.Range(DivGridy +2, grid_y_size - 5);
+
 
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Path;
@@ -415,25 +517,23 @@ public class LevelManager : MonoBehaviour
 
                     //--------------------------------------------------------------------------------//
                     //simetrico//
-                    
-                    tilemap.SetTilemapSprite(originX, originY+10, tilemapSprite);
-                    spriteMatrix[originX, originY+10] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX, originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX, originY - DivGridy ] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX, originY+11, tilemapSprite);
-                    spriteMatrix[originX , originY+11] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX, originY+ DivGridy +1, tilemapSprite);
+                    spriteMatrix[originX , originY - DivGridy +1] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX  , originY+12, tilemapSprite);
-                    spriteMatrix[originX , originY+12 ] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX  , originY - DivGridy +3, tilemapSprite);
+                    spriteMatrix[originX , originY - DivGridy +3] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX , originY+13, tilemapSprite);
-                    spriteMatrix[originX , originY+13 ] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX , originY - DivGridy +3, tilemapSprite);
+                    spriteMatrix[originX , originY - DivGridy +3] = Tilemap.TilemapObject.TilemapSprite.Path;
 
                     break;
                 //horizontal path
                 case 3:
-                    originX = Random.Range(2, grid_x_size - 4);
-                    originY = Random.Range(grid_y_simetrico - 5, 4);
-
+                    originX = Random.Range(4, grid_x_size - 2);
+                    originY = Random.Range(DivGridy +2, grid_y_size - 5);
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Path;
 
@@ -445,251 +545,23 @@ public class LevelManager : MonoBehaviour
 
                     tilemap.SetTilemapSprite(originX +3 , originY , tilemapSprite);
                     spriteMatrix[originX +3, originY ] = Tilemap.TilemapObject.TilemapSprite.Path;
-
                     //--------------------------------------------------------------------------------//
                     //simetrico//
-                    
-                    tilemap.SetTilemapSprite(originX , originY +10, tilemapSprite);
-                    spriteMatrix[originX , originY +10] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX , originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX , originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX +1, originY +10, tilemapSprite);
-                    spriteMatrix[originX + 1, originY+10] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX +1, originY - DivGridy,  tilemapSprite);
+                    spriteMatrix[originX + 1, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX +2, originY+10, tilemapSprite);
-                    spriteMatrix[originX + 2, originY+10 ] = Tilemap.TilemapObject.TilemapSprite.Path;
+                    tilemap.SetTilemapSprite(originX +2, originY +DivGridy, tilemapSprite);
+                    spriteMatrix[originX + 2, originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Path;
 
-                    tilemap.SetTilemapSprite(originX +3 , originY+10, tilemapSprite);
-                    spriteMatrix[originX +3 , originY+10] = Tilemap.TilemapObject.TilemapSprite.Path;
-
+                    tilemap.SetTilemapSprite(originX +3 , originY - DivGridy, tilemapSprite);
+                    spriteMatrix[originX +3 , originY - DivGridy] = Tilemap.TilemapObject.TilemapSprite.Path;
 
                     break;
-
             }
         }
+        
     }
 }
-
-/*
-    private void GenerateMountains(){
-        tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Mountain;
-        Vector3 newcoords;
-        int RandomMountains = Random.Range(total_size/8, total_size/4 ); //Random Quantity
-         for(int i = 0; i < RandomMountains; i++){ //Random position
-        Vector3 RandomNumber = new Vector3(Random.Range(10, total_size/2 + total_size/8),
-        Random.Range(10, total_size/2 + total_size/8),Random.Range(10, total_size/2 + total_size/8));
-            tilemap.SetTilemapSprite(RandomNumber, tilemapSprite);
-            
-            tilemap.GetTilemapGrid().GetXY(RandomNumber, out int a, out int b);
-            if (a < grid_x_size && b < grid_y_simetrico)
-                spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-            
-            //Tiles arround the original random tile
-            for(int z = 0; z < Random.Range(4,6); z++){
-                int random = Random.Range(1,6);
-                if(random == 1){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber + new Vector3(1, 1, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                    
-                }else if(random == 2){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber - new Vector3(1, 1, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                    
-                }else if(random == 3){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber + new Vector3(0, 1, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                
-                }else if(random == 4){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber - new Vector3(0, 1, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                
-                }else if(random == 5){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber + new Vector3(1, 0, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                
-                }else if(random == 6){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber - new Vector3(1, 0, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Mountain;
-                }
-        }
-        }
-            
-    }*/
-/*
-    private void GenerateWater(){
-        Vector3 newcoords;
-        int RandomWater = Random.Range(total_size/8, total_size/4); //Random Quantity
-         for(int i = 0; i < RandomWater; i++){ //Random position
-         tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Water;
-        Vector3 RandomNumber = new Vector3(Random.Range(10, total_size/2 + total_size/8),
-        Random.Range(10, total_size/2 + total_size/8),Random.Range(10, total_size/2 + total_size/8));
-            tilemap.SetTilemapSprite(RandomNumber, tilemapSprite);
-            
-            tilemap.GetTilemapGrid().GetXY(RandomNumber, out int a, out int b);
-            if (a < grid_x_size && b < grid_y_simetrico)
-                spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Water;
-            
-            //Tiles arround the original random tile
-            for(int z = 0; z < Random.Range(1,3); z++){
-                int random = Random.Range(1,6);
-                if(random == 1){
-                    tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Water;
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber + new Vector3(1, 1, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    //tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
-                    //tilemap.SetTilemapSprite(newcoords = RandomNumber + new Vector3(Random.Range(-1,1), Random.Range(-1,1), 1), tilemapSprite);
-                }else if(random == 2){
-                    tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Water;
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber - new Vector3(1, 1, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Water;
-
-                }else if(random == 3){
-                    tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Water;
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber + new Vector3(0, 1, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Water;
-                
-                }else if(random == 4){
-                    tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Water;
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber - new Vector3(0, 1, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Water;
-                
-                }else if(random == 5){
-                    tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Water;
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber + new Vector3(1, 0, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Water;
-                
-                }else if(random == 6){
-                    tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Water;
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber - new Vector3(1, 0, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Water;
-                }
-        }
-        }
-    }*/
-    /*
-    private void GeneratePath(){
-        tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
-        Vector3 newcoords;
-        int RandomMountains = Random.Range(total_size/16, total_size/8 ); //Random Quantity
-         for(int i = 0; i < RandomMountains; i++){ //Random position
-        Vector3 RandomNumber = new Vector3(Random.Range(10, total_size/2 + total_size/8),
-        Random.Range(10, total_size/2 + total_size/8),Random.Range(10, total_size/2 + total_size/8));
-            tilemap.SetTilemapSprite(RandomNumber, tilemapSprite);
-            
-            tilemap.GetTilemapGrid().GetXY(RandomNumber, out int a, out int b);
-            if (a < grid_x_size && b < grid_y_simetrico)
-                spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Path;
-            //Tiles arround the original random tile
-            int random = Random.Range(1,4);
-            for(int z = 0; z < Random.Range(4,6); z++){
-                if(random == 1){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber + new Vector3(z, 0, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Path;
-                    
-                }else if(random == 2){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber - new Vector3(z, 0, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Path;
-                    
-                }else if(random == 3){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber + new Vector3(0, z, 1), tilemapSprite);
-                    
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Path;
-                
-                }else if(random == 4){
-                    tilemap.SetTilemapSprite(newcoords = RandomNumber - new Vector3(0, z, 1), tilemapSprite);
-                    tilemap.GetTilemapGrid().GetXY(RandomNumber, out a, out b);
-                    if (a < grid_x_size && b < grid_y_simetrico)
-                        spriteMatrix[a, b] = Tilemap.TilemapObject.TilemapSprite.Path;
-        }
-        }
-            
-    }
-}
-}
-*/
-/*originX = Random.Range(3, grid_x_size - 2);
-                    originY = Random.Range(grid_y_simetrico - 1, 3);
-                    //Origen centro
-                    tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
-                    spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    //Cuadrado alrededor de origen
-                    tilemap.SetTilemapSprite(originX, originY + 1, tilemapSprite);
-                    spriteMatrix[originX + 1, originY] = Tilemap.TilemapObject.TilemapSprite.Water;
-
-                    tilemap.SetTilemapSprite(originX + 1, originY + 1, tilemapSprite);
-                    spriteMatrix[originX + 1, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-
-                    tilemap.SetTilemapSprite(originX + 1, originY, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    tilemap.SetTilemapSprite(originX + 1, originY - 1, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    tilemap.SetTilemapSprite(originX, originY - 1, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    tilemap.SetTilemapSprite(originX - 1, originY - 1, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    tilemap.SetTilemapSprite(originX - 1, originY, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    tilemap.SetTilemapSprite(originX - 1, originY + 1, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    //Puntas del diamante
-                    tilemap.SetTilemapSprite(originX, originY + 2, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    tilemap.SetTilemapSprite(originX + 2, originY, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    tilemap.SetTilemapSprite(originX, originY - 2, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;
-                    
-                    tilemap.SetTilemapSprite(originX - 2, originY, tilemapSprite);
-                    spriteMatrix[originX, originY - 1] = Tilemap.TilemapObject.TilemapSprite.Water;*/

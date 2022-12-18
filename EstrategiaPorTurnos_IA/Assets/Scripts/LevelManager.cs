@@ -484,7 +484,7 @@ public class LevelManager : MonoBehaviour
             {
                 case 1: //Center of the map
 
-                originXMid = Random.Range(2, grid_x_size -1);
+                originXMid = Random.Range(2, grid_x_size -4);
                 originYMid = Random.Range(DivGridy -1, DivGridy +3);
 
                 tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
@@ -493,7 +493,7 @@ public class LevelManager : MonoBehaviour
 
                 case 2: //Center of the map
 
-                originXMid = Random.Range(4, grid_x_size -2);
+                originXMid = Random.Range(5, grid_x_size -5);
                 originYMid = Random.Range(DivGridy -1, DivGridy +3);
 
                 tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
@@ -505,10 +505,9 @@ public class LevelManager : MonoBehaviour
                 tilemap.SetTilemapSprite(originXMid , originYMid - 1, tilemapSprite);
                 spriteMatrix[originXMid , originYMid - 1] = Tilemap.TilemapObject.TilemapSprite.Path;
                 break;
-
                 case 3:
 
-                originXMid = Random.Range(4, grid_x_size -3);
+                originXMid = Random.Range(5, grid_x_size -5);
                 originYMid = Random.Range(DivGridy -1, DivGridy +3);
 
                 tilemap.SetTilemapSprite(originXMid, originYMid, tilemapSprite);
@@ -522,7 +521,7 @@ public class LevelManager : MonoBehaviour
             {
                 //Path vertical
                 case 1:
-                    originX = Random.Range(4, grid_x_size -3);
+                    originX = Random.Range(5, grid_x_size -5);
                     originY = Random.Range(DivGridy +2, grid_y_size - 5);
 
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
@@ -561,7 +560,7 @@ public class LevelManager : MonoBehaviour
                     break;
                 //vertical 3
                 case 2:
-                    originX = Random.Range(4, grid_x_size -2);
+                    originX = Random.Range(4, grid_x_size -4);
                     originY = Random.Range(DivGridy +2, grid_y_size - 5);
 
 
@@ -594,7 +593,7 @@ public class LevelManager : MonoBehaviour
                     break;
                 //horizontal path
                 case 3:
-                    originX = Random.Range(4, grid_x_size - 2);
+                    originX = Random.Range(4, grid_x_size - 4);
                     originY = Random.Range(DivGridy +2, grid_y_size - 5);
                     tilemap.SetTilemapSprite(originX, originY, tilemapSprite);
                     spriteMatrix[originX, originY] = Tilemap.TilemapObject.TilemapSprite.Path;

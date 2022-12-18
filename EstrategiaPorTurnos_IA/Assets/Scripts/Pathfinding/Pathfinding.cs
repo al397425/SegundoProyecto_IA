@@ -28,12 +28,12 @@ public class Pathfinding
         return _grid;
     }
 
-    public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 endWorldPos, int characterMovement)
+    public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 endWorldPos, int characterMovement, string characterType)
     {
         _grid.GetXY(startWorldPos, out var startX, out var startY);
         _grid.GetXY(endWorldPos, out var endX, out var endY);
 
-        var path = FindPath(startX, startY, endX, endY);
+        var path = FindPath(startX, startY, endX, endY, characterType);
         if (path == null)
             return null;
         
@@ -48,7 +48,7 @@ public class Pathfinding
         return vPath;
     }
     
-    public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
+    public List<PathNode> FindPath(int startX, int startY, int endX, int endY, string characterType)
     {
         PathNode startNode = _grid.GetGridObject(startX, startY);
         PathNode endNode = _grid.GetGridObject(endX, endY);
@@ -68,7 +68,7 @@ public class Pathfinding
                 {
                     case Tilemap.TilemapObject.TilemapSprite.Ground:
                         pathNode.spriteType = "ground";
-                        pathNode.movementPenalty = 0;
+                        pathNode.movementPenalty = 5;
                         break;
                     case Tilemap.TilemapObject.TilemapSprite.Path:
                         pathNode.spriteType = "path";
@@ -79,6 +79,7 @@ public class Pathfinding
                         break;
                     case Tilemap.TilemapObject.TilemapSprite.Mountain:
                         pathNode.spriteType = "mountain";
+                        pathNode.movementPenalty = 10;
                         break;
                     default:
                         pathNode.spriteType = "";
@@ -112,13 +113,25 @@ public class Pathfinding
             _closedNodes.Add(currentNode);
 
             foreach (var neighbourNode in GetNeighbourList(currentNode))
-            { 
-                if (neighbourNode.spriteType is "water" or "mountain")
+            {
+                if (characterType != "aerial" && neighbourNode.spriteType == "water")   //Aereos ignoran terreno
+                    _closedNodes.Add(neighbourNode);
+                if (characterType == "tank" && neighbourNode.spriteType == "mountain")  //Tanques no van por terreno montañoso
                     _closedNodes.Add(neighbourNode);
                 
                 if (!_closedNodes.Contains(neighbourNode))
-                { 
-                    var possibleGCost = currentNode.gCost + CalculateDistance(currentNode, neighbourNode) + neighbourNode.movementPenalty; 
+                {
+                    int possibleGCost;
+                    
+                    if (characterType == "aerial")  //Aerial codo digo ignora terreno
+                        possibleGCost = currentNode.gCost + CalculateDistance(currentNode, neighbourNode); 
+                    
+                    else if (characterType == "tank" && neighbourNode.spriteType == "ground")   //Tank ignora tierra. Todoterreno vroom vroom
+                        possibleGCost = currentNode.gCost + CalculateDistance(currentNode, neighbourNode);
+
+                    else
+                        possibleGCost = currentNode.gCost + CalculateDistance(currentNode, neighbourNode) + neighbourNode.movementPenalty;
+                    
                     if (possibleGCost < neighbourNode.gCost)
                     {
                         neighbourNode.parent = currentNode;

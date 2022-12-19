@@ -29,7 +29,7 @@ public class UnitActivationNode : GeneralNode
         if(pos != -1)
         {
             //IAAarmy[pos].GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(new Vector3(10, 10));
-            Debug.Log("Unit a activar: " + IAAarmy[pos].name);
+            Debug.Log("Unit a activar: " + IAAarmy[pos].name + "en la posición" + pos);
 
             //UnitSelection.activateUnit(IAAarmy[pos]);
             UnitSelection.moveUnitIA(IAAarmy[pos]);

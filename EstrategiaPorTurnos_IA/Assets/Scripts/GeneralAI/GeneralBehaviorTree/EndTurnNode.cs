@@ -6,9 +6,11 @@ public class EndTurnNode : GeneralNode
 {
 
     private GameObject[] AIArmyList;
+    private UnitSelection UnitSelection;
+
     public EndTurnNode() : base()
     {
-      
+        UnitSelection = GameObject.FindObjectOfType<UnitSelection>();
     }
     public override NodeState Evaluate()
     {
@@ -18,7 +20,9 @@ public class EndTurnNode : GeneralNode
         {
             //Se acaba turno, se debe pasar las el turno al jugador y reiniciar todos los parametros de wasMoved a false en las unidades de la IA
             GeneralAI.RestartMovementIA();
+            UnitSelection.changeTurn();
         }
+
         state = NodeState.SUCCESS;
 
         return state;

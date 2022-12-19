@@ -7,6 +7,8 @@ public class ActiveUnitTree : GeneralTree
 {
     
     public static bool isPlayerTurn = true;
+    private UnitSelection UnitSelection;
+
     protected override GeneralNode SetupTree()
     {
         GeneralNode root = new GeneralSelector(new List<GeneralNode>
@@ -19,6 +21,7 @@ public class ActiveUnitTree : GeneralTree
                 new EndTurnNode(),
             }),
         });
+
         return root;
     }
 

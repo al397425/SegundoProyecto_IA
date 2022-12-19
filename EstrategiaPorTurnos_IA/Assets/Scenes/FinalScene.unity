@@ -274,7 +274,7 @@ MonoBehaviour:
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
-  attackButton: {fileID: 0}
+  attackButton: {fileID: 504948109}
 --- !u!114 &35506434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1010,7 +1010,7 @@ MonoBehaviour:
   position: 
   team: 2
   unitSel: {fileID: 2011346956}
-  attackButton: {fileID: 0}
+  attackButton: {fileID: 504948109}
 --- !u!114 &505393459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1159,7 +1159,7 @@ MonoBehaviour:
   position: 
   team: 2
   unitSel: {fileID: 2011346956}
-  attackButton: {fileID: 0}
+  attackButton: {fileID: 504948109}
 --- !u!114 &507712241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2988,7 +2988,7 @@ MonoBehaviour:
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
-  attackButton: {fileID: 0}
+  attackButton: {fileID: 504948109}
 --- !u!114 &1854998080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3273,7 +3273,7 @@ MonoBehaviour:
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
-  attackButton: {fileID: 0}
+  attackButton: {fileID: 504948109}
 --- !u!114 &2027547683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3422,7 +3422,7 @@ MonoBehaviour:
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
-  attackButton: {fileID: 0}
+  attackButton: {fileID: 504948109}
 --- !u!114 &2042571885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3616,7 +3616,7 @@ MonoBehaviour:
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
-  attackButton: {fileID: 0}
+  attackButton: {fileID: 504948109}
 --- !u!114 &2052066756
 MonoBehaviour:
   m_ObjectHideFlags: 0

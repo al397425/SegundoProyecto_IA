@@ -62,7 +62,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
 
     public void SetTargetPosition(Vector3 targetPosition)
     {
-        var characterType = characterClass.GetType();
+        var characterType = characterClass.GetTypeUnit();
         var characterMovement = characterClass.GetMovement();
         currentPathIndex = 0;
         pathVectorList = Pathfinding.Instance.FindPath(GetPosition(), targetPosition, characterMovement, characterType);

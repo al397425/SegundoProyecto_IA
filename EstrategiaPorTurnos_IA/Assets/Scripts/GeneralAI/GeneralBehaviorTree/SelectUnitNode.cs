@@ -20,8 +20,9 @@ public class SelectUnitNode : GeneralNode
         int posDanger = -1;
         for(i = 0; i < dangerValuesList.Length; i++)
         {
-            if (dangerValuesList[i] > max && dangerValuesList[i] != 0)
+            if (/*dangerValuesList[i] > max &&*/ dangerValuesList[i] != 0)
             {
+                Debug.Log("En el bucle dangerValues " +i+"con un valor de"+dangerValuesList[i]);
                 max = dangerValuesList[i];
                 posDanger = i;
             }

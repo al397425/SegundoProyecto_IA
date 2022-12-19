@@ -6,24 +6,27 @@ using UnityEngine.UI;
 
 public class CharacterClass:MonoBehaviour, ICharacter 
 {
-    public int movement; //n�mero casillas que se podr� desplazar
-    public int cost;
-    public int attackRange;
-    public int health;
-    public int maxHealth;
-    public int attack;
+    private int movement; //n�mero casillas que se podr� desplazar
+   private int cost;
+    private int attackRange;
+    private int health;
+    private int maxHealth;
+    private int attack;
     public string type; //tipo de unidad
     public bool wasMoved; //para saber si la unidad ya fue usada
-    public int id;
+    private int id;
     public int[] position = { 0, 0 };
     public int team;
     public UnitSelection unitSel;
     public Button attackButton;
     private MeshRenderer mr;
+    private bool isActive;
 
     public void Awake()
     {
         mr = GetComponent<MeshRenderer>();
+        SetStats();
+        isActive = false;
         
 
     }
@@ -48,7 +51,12 @@ public class CharacterClass:MonoBehaviour, ICharacter
         if(Input.GetMouseButtonDown(0) && currentUnit.OverlapPoint(mousePos)) {
 
             StatsTell();
-            unitSel.activateUnit(gameObject);
+            if (team == 1)
+            {
+                unitSel.activateUnit(gameObject);
+                isActive = true;
+            }
+           
 
             //�Habr�a que meterlos todos en una lista/recorrerlos para deshabilitarlos? Eso o en el game manager m�s f�cil
 
@@ -61,7 +69,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         if (this.type == "archer")
         {
             movement = 100;
-            attackRange = 3;
+            attackRange = 30;
             health = 1;
             attack = 2;
             type = "archer";
@@ -71,7 +79,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         else if (this.type == "infantry")
         {
             movement = 100;
-            attackRange = 1;
+            attackRange = 10;
             health = 3;
             attack = 2;
             type = "infantry";
@@ -80,7 +88,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         else if (this.type == "tank")
         {
             movement = 100;
-            attackRange = 2;
+            attackRange = 20;
             health = 4;
             attack = 3;
             type = "tank";
@@ -91,7 +99,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         else if (this.type == "aerial")
         {
             movement = 100;
-            attackRange = 2;
+            attackRange = 20;
             health = 2;
             attack = 2;
             type = "aerial";
@@ -108,7 +116,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
     }
 
-    public string GetType()
+    public string GetTypeUnit()
     {
         return type;
     }

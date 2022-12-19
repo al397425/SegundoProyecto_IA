@@ -313,6 +313,7 @@ GameObject:
   - component: {fileID: 1065981918}
   - component: {fileID: 1065981917}
   - component: {fileID: 1065981921}
+  - component: {fileID: 1065981922}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -406,6 +407,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73a3eab49f30d344a207d7d3d931d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1065981922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065981916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0d751dad777d3b4f812730302bf2f57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "tama\xF1oMaximo": 75
+  "tama\xF1oMinimo": 30
+  "tama\xF1oInicial": 75
+  velocidadZoom: 1
+  cam: {fileID: 1065981919}
+--- !u!1 &1362239907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1362239909}
+  - component: {fileID: 1362239908}
+  m_Layer: 0
+  m_Name: Cursor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1362239908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362239907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75b022d2c1f1f3841b67a38a180621d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorTextura: {fileID: 2800000, guid: f0556ff233d03be4ea69793a01440b16, type: 3}
+--- !u!4 &1362239909
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362239907}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 109.95216, y: 112.77629, z: -2.0870717}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2011346954
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +530,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemapVisual: {fileID: 237628394}
-  characterPathfinding: {fileID: 2072689336}
 --- !u!4 &2047649350
 Transform:
   m_ObjectHideFlags: 0

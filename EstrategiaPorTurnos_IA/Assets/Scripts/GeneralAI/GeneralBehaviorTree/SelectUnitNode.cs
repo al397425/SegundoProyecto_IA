@@ -5,28 +5,29 @@ using GeneralBehaviorTree;
 public class SelectUnitNode : GeneralNode
 {
 
-    private bool myTurn = true;
     private float[] dangerValuesList;
-    private float min = float.MaxValue;
+    private float max = float.MinValue;
     public SelectUnitNode() : base()
     {
     }
     public override NodeState Evaluate()
     {
 
-        //Obtenemos la posición de la lista donde el valor de "Peligrosidad" es el minimo y lo guardamos en la data del padre.
+        //Obtenemos la posición de la lista donde el valor de "Peligrosidad" es el maximo y lo guardamos en la data del padre.
         dangerValuesList = (float[])this.parent.GetData("valueList");
         int i;
-        int posDanger;
+        //Le asigno un valor cualquiera para poder rastrear que en caso de que ese valor no haya cambiado es que no quedan unidades por mover.
+        int posDanger = -1;
         for(i = 0; i < dangerValuesList.Length; i++)
         {
-            if (dangerValuesList[i] < min)
+            if (dangerValuesList[i] > max && dangerValuesList[i] != 0)
             {
-                min = dangerValuesList[i];
+                max = dangerValuesList[i];
                 posDanger = i;
             }
         }
-        this.parent.SetData("posDanger", (i - 1));
+        this.parent.ClearData("posDanger");
+        this.parent.SetData("posDanger", posDanger);
         state = NodeState.SUCCESS;
 
         return state;

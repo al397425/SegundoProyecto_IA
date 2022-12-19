@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using GeneralBehaviorTree;
 
-public class ActiveUnitTree : GeneralTree
+public class SpawnUnitTree : GeneralTree
 {
-    
-    public static bool isPlayerTurn = true;
+
+    public static bool canSpawnUnit = false;
+    public static CreateCharacter creator;
     protected override GeneralNode SetupTree()
     {
         GeneralNode root = new GeneralSelector(new List<GeneralNode>
         {
             new WaitForTurnNode(),
             new GeneralSequence( new List<GeneralNode>{
-                new MakeDangerList(),
-                new SelectUnitNode(),
-                new UnitActivationNode(),
-                new EndTurnNode(),
+                new UnitToSpawnNode(),
+                new FindPosToSpawn(),
+                new SpawnNode()
+
             }),
-        });
+        }); ;
         return root;
     }
 
-    public static void SetActivePlayerTurn(bool turn)
+    public static void SetSpawnUnit(bool canSpawn)
     {
-        isPlayerTurn = turn;
+        canSpawnUnit = canSpawn;
     }
 
 

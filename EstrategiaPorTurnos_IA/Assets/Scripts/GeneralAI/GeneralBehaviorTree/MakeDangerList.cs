@@ -9,14 +9,14 @@ public class MakeDangerList : GeneralNode
 {
     //valor para ver si es turno, solo para testeo
     private bool myTurn = true;
-    private Transform[] playerArmyPos;
-    private Transform[] IAAarmyPos;
+    private GameObject[] playerArmyPos;
+    private GameObject[] IAAarmyPos;
     private GeneralAI generalData;
     private float[] dangerValuesList;
     public MakeDangerList() : base() {
         generalData = GameObject.FindObjectOfType<GeneralAI>();
-        playerArmyPos = generalData.playerArmyPos;
-        IAAarmyPos = generalData.IAAarmyPos;
+        playerArmyPos = generalData.PlayerUnits;
+        IAAarmyPos = generalData.IAUnits;
         dangerValuesList = new float[IAAarmyPos.Length];
     }
     public override NodeState Evaluate()
@@ -26,20 +26,27 @@ public class MakeDangerList : GeneralNode
         {
             int i;
             int j;
+            //Compara la peligrosidad que tiene cada unidad respecto a sus alrededores.
             for(i=0; i < IAAarmyPos.Length; i++)
             {
-                //Debug.Log("IA "+i+": "+IAAarmyPos[i].position);
-                for (j = 0; j < playerArmyPos.Length; j++)
+                CharacterClass IAunit = IAAarmyPos[i].GetComponent<CharacterClass>();
+                if (!IAunit.wasMoved)
                 {
-                    //Debug.Log("Enemy "+j+": "+playerArmyPos[j].position);
-                    float dist = Vector3.Distance(IAAarmyPos[i].position, playerArmyPos[j].position);
-                    //Debug.Log("Distance: " + dist);
-                    dangerValuesList[i] += dist;
+                    for (j = 0; j < playerArmyPos.Length; j++)
+                    {
+                        float dist = Vector3.Distance(IAAarmyPos[i].transform.position, playerArmyPos[j].transform.position);
+                        dangerValuesList[i] += dist;
+                    }
                 }
-                //Debug.Log("Danger val: " + dangerValuesList[i]);
+                else //Asignamos el valor a 0 para tomar este valor como referencia en el próximo paso para que nunca tome en cuenta esta unidad
+                {
+                    dangerValuesList[i] = 0;
+                }
+
             }
 
             //Guardamos la lista de los valores en el padre para así que sea accesible para sus nodos hermanos
+            this.parent.ClearData("valueList");
             this.parent.SetData("valueList", dangerValuesList);
             state = NodeState.SUCCESS;
 

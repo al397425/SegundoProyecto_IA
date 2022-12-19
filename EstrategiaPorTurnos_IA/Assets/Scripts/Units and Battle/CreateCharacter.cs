@@ -11,7 +11,7 @@ public class CreateCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Button btn = yourButton.GetComponent<Button>();
+        //Button btn = yourButton.GetComponent<Button>();
         playerTurn = GameObject.Find("GameHandler").GetComponent<UnitSelection>().playerTurn;
 
     }
@@ -37,8 +37,42 @@ public class CreateCharacter : MonoBehaviour
         GameObject characterUnit = Instantiate(unitPrefab, v, Quaternion.identity);
         characterUnit.GetComponent<CharacterClass>().type = unitType;
 
-        if (playerTurn) { characterUnit.GetComponent<CharacterClass>().team = 1; }
-        else { characterUnit.GetComponent<CharacterClass>().team = 2; }
+        if (playerTurn) {
+            characterUnit.tag = "unitPlayer";
+            characterUnit.GetComponent<CharacterClass>().team = 1; 
+        }
+        else {
+            characterUnit.tag = "unitIA";
+            characterUnit.GetComponent<CharacterClass>().team = 2; 
+        }
+
+        characterUnit.GetComponent<CharacterClass>().SetStats();
+        characterUnit.transform.SetParent(GameObject.Find("Units").transform, false);
+
+
+
+    }
+
+    public void GenerateCharactersWithPos(string unitType, Vector3 pos)
+    {
+        //falta hacer que sea una posicion que tu señales, de momento he puesto que lo pusiese 
+        //en una posición fija para testear
+
+        //esto a lo mejor está hecho muy cutre pero de momento funciona así que
+        GameObject unitPrefab = GameObject.Find("CharacterPrefab");
+        GameObject characterUnit = Instantiate(unitPrefab, pos, Quaternion.identity);
+        characterUnit.GetComponent<CharacterClass>().type = unitType;
+
+        if (playerTurn)
+        {
+            characterUnit.tag = "unitPlayer";
+            characterUnit.GetComponent<CharacterClass>().team = 1;
+        }
+        else
+        {
+            characterUnit.tag = "unitIA";
+            characterUnit.GetComponent<CharacterClass>().team = 2;
+        }
 
         characterUnit.GetComponent<CharacterClass>().SetStats();
         characterUnit.transform.SetParent(GameObject.Find("Units").transform, false);

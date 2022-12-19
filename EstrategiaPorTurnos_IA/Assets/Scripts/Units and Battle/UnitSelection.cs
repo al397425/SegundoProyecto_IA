@@ -7,6 +7,7 @@ public class UnitSelection : MonoBehaviour
 {
     public bool playerTurn;
     public int numberTurn;
+    public GameObject[] playerArmy;
 
     private GameObject pastUnit;
     private GameObject currentUnit;
@@ -103,8 +104,17 @@ public class UnitSelection : MonoBehaviour
 
 
     }
+    public void moveUnitIA(GameObject go)
+    {
+        int n = Random.Range(0, playerArmy.Length);
+        
+        //Debug.Log("Random: " + n);
+        go.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(playerArmy[n].transform.position);
 
-    public void attackUnit()
+
+    }
+
+        public void attackUnit()
     {
         if(currentUnit!=null && pastUnit!=null)
         {

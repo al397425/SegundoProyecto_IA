@@ -8,7 +8,7 @@ using GeneralBehaviorTree;
 public class MakeDangerList : GeneralNode
 {
     //valor para ver si es turno, solo para testeo
-    private bool myTurn = true;
+
     private GameObject[] playerArmyPos;
     private GameObject[] IAAarmyPos;
     private GeneralAI generalData;
@@ -21,16 +21,17 @@ public class MakeDangerList : GeneralNode
     }
     public override NodeState Evaluate()
     {
-        //Comprueba si es mi turno
-        if (myTurn)
-        {
+
             int i;
             int j;
+            playerArmyPos = generalData.PlayerUnits;
+            IAAarmyPos = generalData.IAUnits;
+            dangerValuesList = new float[IAAarmyPos.Length];
             //Compara la peligrosidad que tiene cada unidad respecto a sus alrededores.
-            for(i=0; i < IAAarmyPos.Length; i++)
+            for (i=0; i < IAAarmyPos.Length; i++)
             {
                 CharacterClass IAunit = IAAarmyPos[i].GetComponent<CharacterClass>();
-                if (!IAunit.wasMoved)
+            if (!IAunit.wasMoved)
                 {
                     for (j = 0; j < playerArmyPos.Length; j++)
                     {
@@ -50,11 +51,8 @@ public class MakeDangerList : GeneralNode
             this.parent.SetData("valueList", dangerValuesList);
             state = NodeState.SUCCESS;
 
-        }
-        else
-        {
-            state = NodeState.FAILURE;
-        }
+        
+
         return state;
     }
 }

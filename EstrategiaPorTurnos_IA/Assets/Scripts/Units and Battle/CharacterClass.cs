@@ -10,6 +10,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
     public int cost;
     public int attackRange;
     public int health;
+    public int maxHealth;
     public int attack;
     public string type; //tipo de unidad
     public bool wasMoved; //para saber si la unidad ya fue usada
@@ -116,6 +117,18 @@ public class CharacterClass:MonoBehaviour, ICharacter
     {
         return movement;
     }
+    public int GetRange()
+    {
+        return attackRange;
+    }
+    public int GetHealth()
+    {
+        return health;
+    }
+    public int GetAttack()
+    {
+        return attack;
+    }
 
     //La idea aqu� ha sido que haya un MoveUnit gen�rico que compruebe qu� clase es y ya llame
     //al especifico (en verdad esto es m�s donde ir�a lo de la IA y luego el moverlo en s�
@@ -184,20 +197,8 @@ public class CharacterClass:MonoBehaviour, ICharacter
         if (rivalHP <= 0)
         {
             //destruyes al rival
-            Destroy(rival);
+            rival.SetActive(false);
             Debug.Log("La unidad enemiga ha sido derrotada");
-        }
-        else
-        {
-            health = health - rivalATK;
-
-            Debug.Log("Tu unidad sufre " + rivalATK + " de da�o, tienes " + health + "puntos de vida");
-
-            if (health <= 0) {
-                Debug.Log("Tu unidad ha sido derrotada");
-                Destroy(this.gameObject);
-            }
-            
         }
 
 

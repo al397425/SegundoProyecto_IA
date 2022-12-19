@@ -106,12 +106,16 @@ public class UnitSelection : MonoBehaviour
     }
     public void moveUnitIA(GameObject go)
     {
+        CharacterPathfindingMovementHandler cm = go.GetComponent<CharacterPathfindingMovementHandler>();
         int n = Random.Range(0, playerArmy.Length);
-        
-        //Debug.Log("Random: " + n);
-        go.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(playerArmy[n].transform.position);
-
-
+        bool attacked = false;
+        Debug.Log("Set " +go.name+" target position to: " + playerArmy[n].transform.position);
+        attacked = cm.CheckAttack(playerArmy);
+        cm.SetTargetPosition(playerArmy[n].transform.position);
+        if (!attacked)
+        {
+            cm.CheckAttack(playerArmy);
+        }
     }
 
         public void attackUnit()
@@ -128,11 +132,11 @@ public class UnitSelection : MonoBehaviour
     {
         //Debug.Log("changeturn button works");
         playerTurn = !playerTurn;
-        pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
+       // pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
         pastUnit = null;
-        currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
+        //currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
         currentUnit = null;
-        numberTurn = +1;
+        numberTurn++;
 
 
         //

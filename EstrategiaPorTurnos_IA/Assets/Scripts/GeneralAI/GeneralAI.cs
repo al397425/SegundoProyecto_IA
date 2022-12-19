@@ -20,6 +20,11 @@ public class GeneralAI : MonoBehaviour
 
 
     }
+    private void Update()
+    {
+        IAUnits = GameObject.FindGameObjectsWithTag("unitIA");
+        PlayerUnits = GameObject.FindGameObjectsWithTag("unitPlayer");
+    }
 
     private void Path()
     {

@@ -71,8 +71,27 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
             pathVectorList.RemoveAt(0);
         }
     }
-    
-    
+
+    public bool CheckAttack(GameObject[] army)
+    {
+        int i;
+        for (i = 0; i < army.Length; i++)
+        {
+            if (Vector3.Distance(army[i].transform.position, gameObject.transform.position) <= characterClass.GetRange())
+            {
+                characterClass.AttackUnit(army[i]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Vector3> GetPathVectorList()
+    {
+        return pathVectorList;
+    }
+
+
     private static Vector3 GetMouseWorldPosition()
     {
         var vec = GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);

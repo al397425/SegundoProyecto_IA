@@ -17,7 +17,6 @@ public class EndTurnNode : GeneralNode
         if (pos == -1)
         {
             //Se acaba turno, se debe pasar las el turno al jugador y reiniciar todos los parametros de wasMoved a false en las unidades de la IA
-            ActiveUnitTree.SetActivePlayerTurn(true);
             GeneralAI.RestartMovementIA();
         }
         state = NodeState.SUCCESS;

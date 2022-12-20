@@ -31,7 +31,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
     private void Update() {
         HandleMovement();
 
-        if (Input.GetMouseButtonDown(1) && characterClass.team != 2) {
+        if (Input.GetMouseButtonDown(1) && characterClass.team != 2 && !characterClass.wasMoved) {
             SetTargetPosition(GetMouseWorldPosition());
         }
     }
@@ -47,6 +47,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
                 currentPathIndex++;
                 if (currentPathIndex >= pathVectorList.Count) {
                     StopMoving();
+                    characterClass.unitMoved();
                 }
             }
         }
@@ -54,6 +55,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
 
     private void StopMoving() {
         pathVectorList = null;
+
     }
 
     private Vector3 GetPosition() {

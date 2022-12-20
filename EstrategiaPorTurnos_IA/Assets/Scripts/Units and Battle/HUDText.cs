@@ -10,6 +10,7 @@ public class HUDText : MonoBehaviour
     private UnitSelection uniSel;
     private GameObject turnObj;
     private GameObject unitInfo;
+    private GameObject logObj;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,7 @@ public class HUDText : MonoBehaviour
         uniSel = GameObject.Find("GameHandler").GetComponent<UnitSelection>();
         turnObj = GameObject.Find("CurrentTurnText");
         unitInfo = GameObject.Find("UnitInfoText");
+       // logObj = GameObject.Find("LogInfoText");
         numberTurn = 0;
     }
 
@@ -32,8 +34,9 @@ public class HUDText : MonoBehaviour
 
 
 
-        //
+        
         if (unitInfo.activeSelf) { unitInfo.GetComponent<Text>().text = uniSel.UnitInfo(); }
+       // if (logObj.activeSelf) { logObj.GetComponent<Text>().text = uniSel.LogInfo(); }
         
 
     }

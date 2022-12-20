@@ -25,6 +25,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
     {
         mr = GetComponent<MeshRenderer>();
         SetStats();
+        wasMoved = false;
         
 
     }
@@ -61,6 +62,8 @@ public class CharacterClass:MonoBehaviour, ICharacter
         }
 
         if (health <= 0) this.gameObject.SetActive(false);
+        if (team == 1 && !unitSel.playerTurn) wasMoved = false;
+
      
     }
 
@@ -303,7 +306,8 @@ public class CharacterClass:MonoBehaviour, ICharacter
         Debug.Log("movement" + movement + ", atk range " + attackRange + " type " + type + ", del equipo "+team);
     }
 
-    public void unitMoved() { wasMoved = true; }
+    public void unitMoved() { wasMoved = true;  }
+
 
 }
 

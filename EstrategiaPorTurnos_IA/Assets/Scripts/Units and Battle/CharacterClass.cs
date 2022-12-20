@@ -49,16 +49,18 @@ public class CharacterClass:MonoBehaviour, ICharacter
         if(Input.GetMouseButtonDown(0) && currentUnit.OverlapPoint(mousePos)) {
 
             StatsTell();
-            if (team == 1)
-            {
+           // if (team == 1)
+           // {
                 unitSel.activateUnit(gameObject);
 
-            }
+           // }
            
 
             //�Habr�a que meterlos todos en una lista/recorrerlos para deshabilitarlos? Eso o en el game manager m�s f�cil
 
         }
+
+        if (health <= 0) this.gameObject.SetActive(false);
      
     }
 
@@ -208,7 +210,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         {
 
             //destruyes al rival
-            rival.SetActive(false);
+            //rival.SetActive(false);
             Debug.Log("La unidad atacada ha sido derrotada");
         }
 
@@ -300,6 +302,9 @@ public class CharacterClass:MonoBehaviour, ICharacter
     {
         Debug.Log("movement" + movement + ", atk range " + attackRange + " type " + type + ", del equipo "+team);
     }
+
+    public void unitMoved() { wasMoved = true; }
+
 }
 
 

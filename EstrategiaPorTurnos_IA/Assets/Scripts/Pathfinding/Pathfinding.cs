@@ -72,7 +72,7 @@ public class Pathfinding
                         break;
                     case Tilemap.TilemapObject.TilemapSprite.Path:
                         pathNode.spriteType = "path";
-                        pathNode.movementPenalty = -10;
+                        pathNode.movementPenalty = -2;
                         break;
                     case Tilemap.TilemapObject.TilemapSprite.Water:
                         pathNode.spriteType = "water";

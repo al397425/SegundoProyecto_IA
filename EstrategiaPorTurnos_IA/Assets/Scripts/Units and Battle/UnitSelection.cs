@@ -12,6 +12,7 @@ public class UnitSelection : MonoBehaviour
     private GameObject pastUnit;
     private GameObject currentUnit;
     private GameObject attackButton;
+    private GameObject rivalUnit;
     //private GameObject passButton;
     private GameObject textStats;
 
@@ -31,7 +32,7 @@ public class UnitSelection : MonoBehaviour
         pastUnit = null;
         attackButton = GameObject.Find("AttackButton");
         textStats = GameObject.Find("UnitInfoText");
-        currentUnitInfo = GameObject.Find("UnitInfoText");
+        currentUnitInfo = GameObject.Find("UnitInfoTextBox");
         currentUnitInfo.SetActive(false);
         attackButton.SetActive(false);
         infoShows = false;
@@ -77,6 +78,7 @@ public class UnitSelection : MonoBehaviour
         {
             if (currentUnit.GetComponent<CharacterClass>().team == go.GetComponent<CharacterClass>().team) //del mismo jugador, cambia el personaje activo
             {
+                Debug.Log("No son mismo equipo, cambio personaje activo");
                 pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
                 pastUnit = currentUnit;
                 pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
@@ -89,6 +91,7 @@ public class UnitSelection : MonoBehaviour
             else  //no son del mismo equipo 
             {
                 Debug.Log("Son de equipos distintos, pueden luchar");
+                rivalUnit = go;
                 attackButton.SetActive(true);
 
             }
@@ -96,6 +99,7 @@ public class UnitSelection : MonoBehaviour
         }
         else if (pastUnit == null) //primera unidad que comienza en el turno (al final del turno resetea)
         {
+            Debug.Log("Primera unidad activa");
             pastUnit = go;
             currentUnit = go;
             currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = true;
@@ -128,10 +132,11 @@ public class UnitSelection : MonoBehaviour
 
     public void attackUnit()
     {
-        if (currentUnit != null && pastUnit != null)
+        if (currentUnit != null && rivalUnit != null)
         {
             Debug.Log("Se puede atacar");
-            pastUnit.GetComponent<CharacterClass>().AttackUnit(currentUnit);
+            currentUnit.GetComponent<CharacterClass>().AttackUnit(rivalUnit);
+            rivalUnit = null;
         }
         attackButton.SetActive(false);
     }

@@ -45,7 +45,7 @@ public class UnitSelection : MonoBehaviour
        // logInfo = GameObject.Find("LogInfoTextBox");
        // logInfo.SetActive(false);
         logShows = false;
-        attackButton.SetActive(false);
+        //attackButton.SetActive(false);
         infoShows = false;
         playerTurn = true;
         numberTurn = 0;
@@ -106,7 +106,7 @@ public class UnitSelection : MonoBehaviour
                 Debug.Log("Son de equipos distintos, pueden luchar");
                 rivalUnit = go;
                 log += "\nLa unidad " + currentUnit.GetComponent<CharacterClass>().GetTypeUnit() + " puede atacar."; logLines++;
-                attackButton.SetActive(true);
+                //attackButton.SetActive(true);
 
             }
 
@@ -124,7 +124,11 @@ public class UnitSelection : MonoBehaviour
 
 
 
-        else { Debug.Log("No es tu unidad"); }
+        else
+        {
+            Debug.Log("No es tu unidad");
+            rivalUnit = go;
+        }
 
 
 
@@ -154,7 +158,7 @@ public class UnitSelection : MonoBehaviour
             currentUnit.GetComponent<CharacterClass>().AttackUnit(rivalUnit);
             rivalUnit = null;
         }
-        attackButton.SetActive(false);
+        //attackButton.SetActive(false);
     }
 
     public void changeTurn()

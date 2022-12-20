@@ -262,15 +262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f8eebfc8a73e9419c4383ef57692ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: 100
-  cost: 3
-  attackRange: 2
-  health: 2
-  maxHealth: 0
-  attack: 2
   type: aerial
   wasMoved: 0
-  id: 0
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
@@ -459,13 +452,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 237628391}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -80, y: -108.7, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 1065981920}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &286937579
 GameObject:
@@ -842,7 +835,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -635, y: -307}
+  m_AnchoredPosition: {x: -183.99997, y: -307}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &504948109
@@ -998,15 +991,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f8eebfc8a73e9419c4383ef57692ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: 100
-  cost: 3
-  attackRange: 20
-  health: 2
-  maxHealth: 0
-  attack: 2
   type: aerial
   wasMoved: 0
-  id: 0
   position: 
   team: 2
   unitSel: {fileID: 2011346956}
@@ -1081,7 +1067,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505393456}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 65.2, y: 205.2, z: 0}
+  m_LocalPosition: {x: 65.2, y: 183, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1147,15 +1133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f8eebfc8a73e9419c4383ef57692ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: 100
-  cost: 1
-  attackRange: 1
-  health: 3
-  maxHealth: 0
-  attack: 2
   type: infantry
   wasMoved: 0
-  id: 0
   position: 
   team: 2
   unitSel: {fileID: 2011346956}
@@ -1462,12 +1441,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 606593545}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 109.95216, y: 112.77629, z: -2.0870717}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 29.952164, y: 4.076294, z: 7.9129286}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1065981920}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &629500384
@@ -1655,7 +1634,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 801997952}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -434, y: 46.106262, z: 0}
+  m_LocalPosition: {x: 17.00003, y: 46.106262, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2060,6 +2039,14 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 498566672}
+  - {fileID: 2072689335}
+  - {fileID: 2047649350}
+  - {fileID: 237628395}
+  - {fileID: 2011346955}
+  - {fileID: 1476158420}
+  - {fileID: 1728179443}
+  - {fileID: 606593547}
+  - {fileID: 1830712244}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2277,7 +2264,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -434, y: -307}
+  m_AnchoredPosition: {x: 17.00003, y: -307}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1454862091
@@ -2546,7 +2533,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476158419}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -80, y: -108.7, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2557,7 +2544,7 @@ Transform:
   - {fileID: 2052066759}
   - {fileID: 1854998083}
   - {fileID: 2042571888}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1065981920}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1602163949
@@ -2679,7 +2666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -222, y: -307}
+  m_AnchoredPosition: {x: 229, y: -307}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1712703475
@@ -2837,11 +2824,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728179440}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -80, y: -108.7, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1065981920}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1830712240
@@ -2909,12 +2896,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830712240}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.814978, y: 4.2983513, z: -0.94003713}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -91.81498, y: -104.40164, z: 9.059963}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1065981920}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1854998077
@@ -2976,15 +2963,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f8eebfc8a73e9419c4383ef57692ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: 100
-  cost: 1
-  attackRange: 1
-  health: 3
-  maxHealth: 0
-  attack: 2
   type: infantry
   wasMoved: 0
-  id: 0
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
@@ -3171,11 +3151,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2011346954}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 86.04691, y: 106.42074, z: -8.730762}
+  m_LocalPosition: {x: 6.046913, y: -2.2792587, z: 1.2692385}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1065981920}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2011346956
@@ -3261,15 +3241,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f8eebfc8a73e9419c4383ef57692ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: 100
-  cost: 1
-  attackRange: 1
-  health: 3
-  maxHealth: 0
-  attack: 2
   type: infantry
   wasMoved: 0
-  id: 0
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
@@ -3410,15 +3383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f8eebfc8a73e9419c4383ef57692ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: 100
-  cost: 1
-  attackRange: 1
-  health: 3
-  maxHealth: 0
-  attack: 2
-  type: infantry
+  type: aerial
   wasMoved: 0
-  id: 0
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
@@ -3538,12 +3504,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2047649348}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 44.559483, y: 84.773895, z: -4.3771873}
+  m_LocalPosition: {x: -35.440517, y: -23.926102, z: 5.6228127}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 1065981920}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2052066753
 GameObject:
@@ -3604,15 +3570,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f8eebfc8a73e9419c4383ef57692ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: 100
-  cost: 1
-  attackRange: 1
-  health: 3
-  maxHealth: 0
-  attack: 2
   type: infantry
   wasMoved: 0
-  id: 0
   position: 
   team: 1
   unitSel: {fileID: 2011346956}
@@ -3772,13 +3731,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072689331}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7, y: 7.5, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -73, y: -101.20001, z: 10}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 1065981920}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2072689336
 MonoBehaviour:
@@ -3804,15 +3763,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f8eebfc8a73e9419c4383ef57692ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: 100
-  cost: 0
-  attackRange: 0
-  health: 0
-  maxHealth: 0
-  attack: 0
   type: 
   wasMoved: 0
-  id: 0
   position: 
   team: 0
   unitSel: {fileID: 2011346956}

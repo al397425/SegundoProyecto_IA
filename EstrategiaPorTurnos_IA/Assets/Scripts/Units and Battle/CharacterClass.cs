@@ -143,6 +143,8 @@ public class CharacterClass:MonoBehaviour, ICharacter
     //ser�a maybe al final de los if o algo, y que la IA llame a esto pero el jugador sea
     //directamente solo comprobar si es posible con los movimientos y si lo es se mueve sin m�s
 
+        //AL FINAL NO HA SIDO UTILIZADO POR EL PLANTEAMIENTO DEL PATHFINDING
+
     public void MoveUnit(int x, int y)
     {
         Debug.Log("Esta unidad se mueve " + this.movement + " de distancia");
@@ -242,11 +244,59 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
     //Puede que esto lo use, puede que se junte con lo del Move al final, no lo s� a�n
     
-    public void InfantryIA() { }
-    public void ArcherIA() { }
-    public void TankIA() { }
-    public void AerialIA() { }
-    
+    public void InfantryIA()
+    {
+        //Simplemente comprueba enemigos cercanos y le da prioridad a si ve alguno que podría
+        //estar en su rango de ataque. Si es una unidad voladora la ignora ya que no le puede alcanzar.
+        //¿Si tiene un tanque y ve que no llegaría a atacarlo intenta evitar escoger su dirección? Para 
+        //el futuro a lo mejor que considerase la vida que le queda al enemigo/si sus compañeros podrían ayudar
+
+        /*
+         if(playerArmyPos[j].GetComponent<CharacterClass>().GetTypeUnit()=="aerial"){priority = 0;}
+         if(playerArmyPos[j].GetComponent<CharacterClass>().GetTypeUnit()=="tank"){priority = dist - disadvantge}
+         else{priority = dist;}
+         */
+    }
+    public void ArcherIA()
+    {
+        //Simplemente comprueba enemigos cercanos y le da prioridad a si ve alguno que podría
+        //estar en su rango de ataque. Si ve una unidad voladora le dará prioridad siempre, intentando 
+        //dentro de lo que cabe quedar demasiado cerca de enemigos que puedan matarlo en el siguiente turno
+        //(principalmente tanques, por ejemplo)
+
+        //¿A lo mejor funcionaría mejor que hiciese return de la unidad más "peligrosa" o prioritaria?
+        /*
+ if(playerArmyPos[j].GetComponent<CharacterClass>().GetTypeUnit()=="aerial"){priority = float.MaxValue;}
+ if(playerArmyPos[j].GetComponent<CharacterClass>().GetTypeUnit()=="tank"){priority = dist - disadvantge}
+ else{priority = dist;}
+ */
+    }
+    public void TankIA()
+    {
+        //Simplemente comprueba enemigos cercanos y le da prioridad a si ve alguno que podría
+        //estar en su rango de ataque. Se mueve hacia la unidad más cercana y evita a los aereos.
+
+
+        /*
+         if(playerArmyPos[j].GetComponent<CharacterClass>().GetTypeUnit()=="aerial"){priority = 0;}
+         else{priority = dist;}
+         */
+
+    }
+    public void AerialIA()
+    {
+        //Simplemente comprueba enemigos cercanos y le da prioridad a si ve alguno que podría
+        //estar en su rango de ataque. Se mueve hacia la unidad más cercana y si ve un arquero en 
+        //su rango de ataque lo prioriza, ¿si no está en su rango de ataque evita ponerse en el suyo?
+
+
+        /*
+         if(playerArmyPos[j].GetComponent<CharacterClass>().GetTypeUnit()=="archer"){priority = float.MaxValue;}
+         if(playerArmyPos[j].GetComponent<CharacterClass>().GetTypeUnit()=="aerial"){priority = dist + advantge}
+         else{priority = dist;}
+         */
+    }
+
 
     public void StatsTell()
     {
@@ -255,271 +305,4 @@ public class CharacterClass:MonoBehaviour, ICharacter
 }
 
 
-
-//Esto es c�mo lo ten�a antes por si luego explota 
-/*
-public class CharacterClass : Character
-{
-    public BoxCollider2D collision;
-    public int movement; //n�mero casillas que se podr� desplazar
-    public int attackRange;
-    public int health;
-    public int attack;
-    public string type; //tipo de unidad
-    public bool wasMoved; //para saber si la unidad ya fue usada
-    public int id;
-    public int[] position = { 0, 0 };
-
-    // Start is called before the first frame update
-
-
-    // Update is called once per frame
-    public override void Update()
-    {
-
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //coge la posicion que has clicado
-
-        BoxCollider2D collision = this.GetComponent<BoxCollider2D>();
-
-        if (collision.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
-        {
-            this.StatsTell();
-        }
-    }
-
-    public override void SetStats()
-    {
-        if (this.type == "archer")
-        {
-            movement = 3;
-            attackRange = 3;
-            health = 1;
-            attack = 2;
-            type = "archer";
-        }
-        else if (this.type == "infantry")
-        {
-            movement = 3;
-            attackRange = 1;
-            health = 3;
-            attack = 2;
-            type = "infantry";
-        }
-        else if (this.type == "tank")
-        {
-            movement = 2;
-            attackRange = 2;
-            health = 4;
-            attack = 3;
-            type = "tank";
-
-        }
-        else if (this.type == "aerial") 
-        {
-            movement = 5;
-            attackRange = 2;
-            health = 2;
-            attack = 2;
-            type = "aerial";
-        }
-        else
-        {
-            Debug.Log("No hay tipo");
-            this.type = "none";
-        }
-
-
-    }
-
-    public override void MoveUnit(int x, int y)
-    {
-        Debug.Log("Esta unidad se mueve " + this.movement + " de distancia");
-        if (this.type == "archer")
-        {
-            MoveArcher(x, y);
-        }
-        else if (this.type == "infantry")
-        {
-            MoveInfantry(x, y);
-        }
-        else if (this.type == "tank")
-        {
-            MoveTank(x,y);
-
-        }
-        else if (this.type == "aerial")
-        {
-            MoveAerial(x,y);
-        }
-        //aqu� c�digo 
-    }
-    public override void AttackUnit()
-    {
-        Debug.Log("Esta unidad se mueve " + this.attackRange + " de distancia");
-        //comprueba si est� en el rango de ataque 
-
-
-        //si lo est� se inicia el enfrentamiento entre las unidades
-    }
-
-    public void MoveArcher(int x, int y)
-    {
-
-    }
-
-    public void MoveInfantry(int x, int y)
-    {
-
-    }
-
-    public void MoveTank(int x, int y)
-    {
-
-    }
-
-    public void MoveAerial(int x, int y)
-    {
-
-    }
-
-
-
-    public void InfantryIA() { }
-    public void ArcherIA() { }
-    public void TankIA() { }
-    public void AerialIA() { }
-
-}
-*/
-
-/*
-public class Archer : Character
-    {
-        
-        public override void setStats() {
-            movement = 3;
-            attackRange = 3;
-            health = 1;
-            attack = 2;
-            type = "archer";
-        }
-
-        public override void Update()
-        {
-
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //coge la posicion que has clicado
-
-            BoxCollider2D collision = this.GetComponent<BoxCollider2D>();
-
-            if (collision.OverlapPoint(mousePos) && Input.GetMouseButtonDown(0))
-            {
-                this.statsTell();
-            }
-        }
-
-        public override void moveUnit(int x, int y, int id) //tendr�a que indicarle a qu� tile se mueve (?)
-                                                            //cada unidad que se cree que tenga un id y al mover la unidad mira qu� id tiene el pj y a qu� tile lo quieres mover
-                                                            //entonces cambia en el mapa la posicion (y se guarda cuales son sus coordenadas actuales maybe?)
-        {
-            //se muestra los posibles destinos
-
-            Debug.Log("Esta unidad se mueve " + movement + " de distancia");
-            //aqu� c�digo (en otro script vendr�a la IA en s� que una vez decidiese el movimiento llamar�a a esta funci�n)
-            //tiene que comprobar si el tile al que lo quieres mover es viable en base a su rango de movimiento (aunque eso maybe se hace m�s con el pathfinding), si lo es lo mueve, si no no hace nada
-
-
-            //poner
-        }
-        public override void attackUnit()
-        {
-            
-            //comprueba si est� en el rango de ataque
-
-
-            //si lo est� se inicia el enfrentamiento entre las unidades
-        }
-
-    }
-
-    public class Infantry : Character
-    {
-        public override void setStats()
-        {
-            movement = 3;
-            attackRange = 1;
-            health = 3;
-            attack = 2;
-            type = "infantry";
-        }
-
-        public override void moveUnit(int x, int y, int id)
-        {
-
-            Debug.Log("Esta unidad se mueve " + movement + " de distancia");
-            //aqu� c�digo 
-        }
-        public override void attackUnit()
-        {
-            attackRange = 1;
-            //comprueba si est� en el rango de ataque
-
-
-            //si lo est� se inicia el enfrentamiento entre las unidades
-        }
-    }
-
-    public class Tank : Character
-    {
-        public override void setStats()
-        {
-            movement = 2;
-            attackRange = 2;
-            health = 4;
-            attack = 3;
-            type = "tank";
-        }
-        public override void moveUnit(int x, int y, int id)
-        {
-
-            Debug.Log("Esta unidad se mueve " + movement + " de distancia");
-            //aqu� c�digo 
-        }
-        public override void attackUnit()
-        {
-            attackRange = 2;
-            //comprueba si est� en el rango de ataque
-
-
-            //si lo est� se inicia el enfrentamiento entre las unidades
-        }
-    }
-
-    public class Aerial : Character
-    {
-        public override void setStats()
-        {
-            movement = 5;
-            attackRange = 2;
-            health = 2;
-            attack = 2;
-            type = "aerial";
-        }
-        public override void moveUnit(int x, int y, int id)
-        {
-            movement = 4;
-            Debug.Log("Esta unidad se mueve " + movement + " de distancia");
-            //aqu� c�digo 
-        }
-        public override void attackUnit()
-        {
-            attackRange = 2;
-            //comprueba si est� en el rango de ataque
-
-
-            //si lo est� se inicia el enfrentamiento entre las unidades
-        }
-    }
-
-
-*/
 

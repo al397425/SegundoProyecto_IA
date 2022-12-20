@@ -27,7 +27,7 @@ public class UnitSelection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
- 
+
         pastUnit = null;
         attackButton = GameObject.Find("AttackButton");
         textStats = GameObject.Find("UnitInfoText");
@@ -38,21 +38,21 @@ public class UnitSelection : MonoBehaviour
         playerTurn = true;
         numberTurn = 0;
 
-      //Button btnpass = passButton.GetComponent<Button>();
+        //Button btnpass = passButton.GetComponent<Button>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public Material GetMaterialUnit(string t)
     {
         if (t == "archer")
         {
-           return archerTex;
+            return archerTex;
         }
         else if (t == "infantry")
         {
@@ -72,39 +72,38 @@ public class UnitSelection : MonoBehaviour
 
     public void activateUnit(GameObject go)
     {
-        if (go.GetComponent<CharacterClass>().team == 1)
+
+        if (pastUnit != null) //no es la primera vez en activarse una unidad durante la partida
         {
-            if (pastUnit != null) //no es la primera vez en activarse una unidad durante la partida
+            if (currentUnit.GetComponent<CharacterClass>().team == go.GetComponent<CharacterClass>().team) //del mismo jugador, cambia el personaje activo
             {
-                if (currentUnit.GetComponent<CharacterClass>().team == go.GetComponent<CharacterClass>().team) //del mismo jugador, cambia el personaje activo
-                {
-                    pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
-                    pastUnit = currentUnit;
-                    pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
-                    currentUnit = go;
-                    currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = true;
-                    //currentUnit.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(currentUnit.transform.position);    //Comentado porque creo que no hacen falta
-
-
-                }
-                else  //no son del mismo equipo 
-                {
-                    Debug.Log("Son de equipos distintos, pueden luchar");
-                    attackButton.SetActive(true);
-
-                }
-
-            }
-            else if (pastUnit == null) //primera unidad que comienza en el turno (al final del turno resetea)
-            {
-                pastUnit = go;
+                pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
+                pastUnit = currentUnit;
+                pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
                 currentUnit = go;
                 currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = true;
                 //currentUnit.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(currentUnit.transform.position);    //Comentado porque creo que no hacen falta
 
+
+            }
+            else  //no son del mismo equipo 
+            {
+                Debug.Log("Son de equipos distintos, pueden luchar");
+                attackButton.SetActive(true);
+
             }
 
         }
+        else if (pastUnit == null) //primera unidad que comienza en el turno (al final del turno resetea)
+        {
+            pastUnit = go;
+            currentUnit = go;
+            currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = true;
+            //currentUnit.GetComponent<CharacterPathfindingMovementHandler>().SetTargetPosition(currentUnit.transform.position);    //Comentado porque creo que no hacen falta
+
+        }
+
+
 
         else { Debug.Log("No es tu unidad"); }
 
@@ -117,18 +116,19 @@ public class UnitSelection : MonoBehaviour
         CharacterPathfindingMovementHandler cm = go.GetComponent<CharacterPathfindingMovementHandler>();
         int n = Random.Range(0, playerArmy.Length);
         bool attacked = false;
-        Debug.Log("Set " +go.name+" target position to: " + playerArmy[n].transform.position);
+        Debug.Log("Set " + go.name + " target position to: " + playerArmy[n].transform.position);
         attacked = cm.CheckAttack(playerArmy);
         cm.SetTargetPosition(playerArmy[n].transform.position);
         if (!attacked)
         {
+            Debug.Log("Not attacked");
             cm.CheckAttack(playerArmy);
         }
     }
 
-        public void attackUnit()
+    public void attackUnit()
     {
-        if(currentUnit!=null && pastUnit!=null)
+        if (currentUnit != null && pastUnit != null)
         {
             Debug.Log("Se puede atacar");
             pastUnit.GetComponent<CharacterClass>().AttackUnit(currentUnit);
@@ -140,7 +140,7 @@ public class UnitSelection : MonoBehaviour
     {
         //Debug.Log("changeturn button works");
         playerTurn = !playerTurn;
-       // pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
+        // pastUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
         pastUnit = null;
         //currentUnit.GetComponent<CharacterPathfindingMovementHandler>().enabled = false;
         currentUnit = null;
@@ -148,7 +148,7 @@ public class UnitSelection : MonoBehaviour
 
 
         Debug.Log("CAMBIO TURNO, TURNO DE JUGADOR ES " + playerTurn);
-        
+
     }
 
     public string UnitInfo()
@@ -157,13 +157,13 @@ public class UnitSelection : MonoBehaviour
 
         if (currentUnit != null)
         {
-           info = "Unit Type: " + currentUnit.GetComponent<CharacterClass>().GetTypeUnit() +
-          "\nHP: " + currentUnit.GetComponent<CharacterClass>().GetHealth() +
-          "\nAttack: " + currentUnit.GetComponent<CharacterClass>().GetAttack() +
-          "\nMovement range: " + currentUnit.GetComponent<CharacterClass>().GetMovement() +
-          "\nAttack range: " + currentUnit.GetComponent<CharacterClass>().GetRange();
+            info = "Unit Type: " + currentUnit.GetComponent<CharacterClass>().GetTypeUnit() +
+           "\nHP: " + currentUnit.GetComponent<CharacterClass>().GetHealth() +
+           "\nAttack: " + currentUnit.GetComponent<CharacterClass>().GetAttack() +
+           "\nMovement range: " + currentUnit.GetComponent<CharacterClass>().GetMovement() +
+           "\nAttack range: " + currentUnit.GetComponent<CharacterClass>().GetRange();
         }
-      
+
 
         return info;
 
@@ -171,7 +171,7 @@ public class UnitSelection : MonoBehaviour
 
     public void ShowUnitInfo()
     {
-        currentUnitInfo.SetActive(!infoShows); 
+        currentUnitInfo.SetActive(!infoShows);
 
     }
 

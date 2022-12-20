@@ -20,13 +20,11 @@ public class CharacterClass:MonoBehaviour, ICharacter
     public UnitSelection unitSel;
     public Button attackButton;
     private MeshRenderer mr;
-    private bool isActive;
 
     public void Awake()
     {
         mr = GetComponent<MeshRenderer>();
         SetStats();
-        isActive = false;
         
 
     }
@@ -54,7 +52,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
             if (team == 1)
             {
                 unitSel.activateUnit(gameObject);
-                isActive = true;
+
             }
            
 
@@ -112,7 +110,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
         }
 
         mr.material = unitSel.GetMaterialUnit(type);
-
+        if (team == 2) { mr.material.color = Color.red; }
 
     }
 
@@ -211,7 +209,7 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
             //destruyes al rival
             rival.SetActive(false);
-            Debug.Log("La unidad enemiga ha sido derrotada");
+            Debug.Log("La unidad atacada ha sido derrotada");
         }
 
 

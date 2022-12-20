@@ -31,7 +31,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
     private void Update() {
         HandleMovement();
 
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetMouseButtonDown(1) && characterClass.team != 2) {
             SetTargetPosition(GetMouseWorldPosition());
         }
     }
@@ -80,6 +80,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
             if (Vector3.Distance(army[i].transform.position, gameObject.transform.position) <= characterClass.GetRange())
             {
                 characterClass.AttackUnit(army[i]);
+                Debug.Log("Ataca IA");
                 return true;
             }
         }

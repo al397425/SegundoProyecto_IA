@@ -202,14 +202,21 @@ public class CharacterClass:MonoBehaviour, ICharacter
 
         Debug.Log("El rival ha sufrido " + attack + "puntos de da�o, tiene " + rivalHP + " de vida");
 
+        rival.GetComponent<CharacterClass>().setHealth(rivalHP);
+
         if (rivalHP <= 0)
         {
+
             //destruyes al rival
             rival.SetActive(false);
             Debug.Log("La unidad enemiga ha sido derrotada");
         }
 
 
+    }
+    public void setHealth(int currentHealth)
+    {
+        health = currentHealth;
     }
 
     public void MoveArcher(int x, int y)
